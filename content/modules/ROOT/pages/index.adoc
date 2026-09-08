@@ -1,6 +1,6 @@
 = Fed Aura Capital AI Workshop with Red Hat OpenShift AI
 
-Welcome to the Fed Aura Capital AI Workshop!
+Welcome to the Fed Aura Capital AI Workshop, Grand Rapids!
 
 == What you'll learn
 
