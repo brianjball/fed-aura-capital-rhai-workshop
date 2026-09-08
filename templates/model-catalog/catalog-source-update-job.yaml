@@ -99,6 +99,6 @@ spec:
                     licenseLink: https://www.apache.org/licenses/LICENSE-2.0.txt
                     libraryName: transformers
                     artifacts:
-                      - uri: https://huggingface.co/Qwen/Qwen3-0.6B
+                      - uri: oci://quay.io/rh-aiservices-bu/modelcar-catalog:qwen3-0.6b
               EOF
               echo "ConfigMap applied successfully"

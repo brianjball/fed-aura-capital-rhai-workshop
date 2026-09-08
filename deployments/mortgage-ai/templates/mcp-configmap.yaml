@@ -11,7 +11,7 @@ data:
   Risk-MCP-Server: |
     {
       "url": "http://{{ .Values.mcpRiskServer.name }}.{{ .Release.Namespace }}.svc.cluster.local:{{ .Values.mcpRiskServer.service.port }}/mcp",
-      "transport": "sse",
+      "transport": "streamable-http",
       "description": "An MCP server for mortgage risk assessment and analysis."
     }
   {{- end }}

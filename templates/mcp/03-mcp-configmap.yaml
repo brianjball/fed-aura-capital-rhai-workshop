@@ -8,7 +8,7 @@ data:
   Risk-MCP-Server: |
     {
       "url": "http://mcp-risk-server.mcp-servers.svc.cluster.local:8081/mcp",
-      "transport": "sse",
+      "transport": "streamable-http",
       "description": "An MCP server for mortgage risk assessment and analysis."
     }
   Weather-MCP-Server: |

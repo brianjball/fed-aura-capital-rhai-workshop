@@ -1,0 +1,27 @@
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceServiceConfig
+metadata:
+  annotations:
+    opendatahub.io/runtime-version: 0.24.0+rhaiv.9
+    opendatahub.io/supported-topologies: '["workload-single-node"]'
+    openshift.io/description: vLLM CPU (x86) LLMInferenceServiceConfig Single Node
+      for LLMInferenceService.
+    openshift.io/display-name: vLLM CPU (x86) LLMInferenceServiceConfig Single Node
+  name: vllm-cpu-x86-single-node
+  namespace: redhat-ods-applications
+  labels:
+    opendatahub.io/config-type: accelerator
+    opendatahub.io/dashboard: "true"
+spec:
+  model:
+    uri: ""
+  template:
+    containers:
+      - env:
+          - name: HF_HOME
+            value: /tmp/hf_home
+          - name: VLLM_CPU_KVCACHE_SPACE
+            value: "4"
+        image: registry.redhat.io/rhaii/vllm-cpu-rhel9@sha256:a1ec87fc11e84aff94af69fe92827d7a708b78792bce052615fb3c4bf1fc0bef
+        name: main
+        resources: {}

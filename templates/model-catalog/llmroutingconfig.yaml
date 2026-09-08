@@ -1,0 +1,28 @@
+apiVersion: serving.kserve.io/v1alpha1
+kind: LLMInferenceServiceConfig
+metadata:
+  annotations:
+    description: Standard single-node CPU deployment with intelligent scheduling. Suitable for testing llm-d with CPUs.
+    openshift.io/description: ''
+    openshift.io/display-name: cpu-single-node
+  name: cpu-single-node
+  namespace: redhat-ods-applications
+  finalizers:
+    - serving.kserve.io/llmisvcconfig-finalizer
+  labels:
+    opendatahub.io/config-type: workload-single-node
+    opendatahub.io/dashboard: 'true'
+spec:
+  model:
+    uri: ''
+  template:
+    containers:
+      - image: 'registry.redhat.io/rhaii/vllm-cpu-rhel9@sha256:a1ec87fc11e84aff94af69fe92827d7a708b78792bce052615fb3c4bf1fc0bef'
+        name: main
+        resources:
+          limits:
+            cpu: '4'
+            memory: 32Gi
+          requests:
+            cpu: '2'
+            memory: 16Gi

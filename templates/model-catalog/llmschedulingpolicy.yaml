@@ -1,0 +1,42 @@
+apiVersion: serving.kserve.io/v1alpha2
+kind: LLMInferenceServiceConfig
+metadata:
+  annotations:
+    description: Optimized baseline scheduling policy with queue, KV cache
+      utilization, prefix cache, and LRU scoring.
+    opendatahub.io/supported-topologies: '["workload-single-node"]'
+    openshift.io/description: Optimized baseline scheduling policy with queue, KV
+      cache utilization, prefix cache, and LRU scoring.
+    openshift.io/display-name: cpu-llm-d-scheduling-policy
+  name: cpu-llm-d-scheduling-policy
+  namespace: redhat-ods-applications
+  labels:
+    opendatahub.io/config-type: router
+    opendatahub.io/dashboard: "true"
+spec:
+  model:
+    uri: ""
+  router:
+    gateway: {}
+    route: {}
+    scheduler:
+      config:
+        inline:
+          apiVersion: llm-d.ai/v1alpha1
+          kind: EndpointPickerConfig
+          plugins:
+            - type: queue-scorer
+            - type: kv-cache-utilization-scorer
+            - type: prefix-cache-scorer
+            - type: no-hit-lru-scorer
+          schedulingProfiles:
+            - name: default
+              plugins:
+                - pluginRef: queue-scorer
+                  weight: 2
+                - pluginRef: kv-cache-utilization-scorer
+                  weight: 2
+                - pluginRef: prefix-cache-scorer
+                  weight: 3
+                - pluginRef: no-hit-lru-scorer
+                  weight: 2
