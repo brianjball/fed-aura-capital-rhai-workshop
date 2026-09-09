@@ -35,78 +35,71 @@ Browse the RHOAI Model Catalog, filter by task type, and identify NVIDIA Nemotro
 
 === Find the model catalog
 
-image::model_catalog_navigation.png[To find the model catalog from OpenShift AI, click on "AI hub", then "Models". From the new page, click the "Catalog" tab.,align=center]
+.To find the model catalog from OpenShift AI, click on "AI hub", then "Models". From the new page, click the "Catalog" tab.
+image::model-catalog-navigation.png[The model catalog link in OpenShift AI,align=center]
+
+From the model catalog, you can filter multiple different ways. The easiest way is to have "All models" selected and then use the filter. Different collections appear directly below the filter, for example "Red Hat AI - validated models" that come from third parties or "Red Hat AI models" that come directly from Red Hat. You can also search by tags on the left hand side.
+
+In this case, let's do a filter on "Nemotron" and see what we get:
+
+image::nemotron-models.png[Nemotron models available in the model catalog,align=center]
 
 
-== Exercise 2: Deploy a Model on CPU
+== Exercise 2: Deploy a Model on GPU
 
-Walk through the Deploy wizard, select a CPU hardware profile, and configure a vLLM ServingRuntime for inference.
+Walk through the Deploy wizard, select a GPU hardware profile, and configure a vLLM ServingRuntime for inference.
 
-TBD
+We will start by creating a hardware profile. Navigate to Settings (the last option in the sidenav) > Environment setup > Hardware profiles.
 
-=== Quick Test: GenAI Playground
+image::hardware-profile-settings.png[Hardware profiles link in OpenShift AI,align=center]
 
-Before moving on, open the GenAI Playground from the RHOAI dashboard and point it at the CPU model you just deployed.
-Send a simple prompt - something like _"What is a fixed-rate mortgage?"_ - and confirm that the model responds.
-This is the fastest way to verify that the inference endpoint is live, and in Module 3 you will return to the Playground to compare multiple models and shape Lenora's behavior with system prompts.
+We will create a new hardware profile. Give it the name "NVIDIA GPU", then find the "Resource requests and limits" section. Add a new resource and give it the values shown below:
 
-== Exercise 3: Deploy with GPU and llm-d
+.You can use the default maximum provided of 2, or you can set it to 1. Our clusters only have 1 GPU on them so you can't actually allocate more anyways.
+image::gpu-resource.png[GPU configuration,align=center]
 
-Configure a GPU hardware profile, enable "Distributed Inference with llm-d", and set the number of replicas.
+We also need to increase the memory allowance for the hardware profile. Modify the Memory default and maximum to 6Gib and 8Gib respectively.
 
-TBD
+Click create hardware profile when you are done.
 
-== Exercise 4: Benchmark Quantized vs Unquantized
+=== Deploy GPT OSS 20B
 
-Run a live benchmark against both model variants and compare results.
-Key metrics to observe: TTFT of 35.6ms (quantized) vs 60.4ms (unquantized), a 1.69x speedup, and prefix cache hit rate.
+Navigate back to the model catalog and find the catalog item "gpt-oss-20b-essential"
 
-TBD
+image::gpt-oss-20b-essential.png[GPU configuration,align=center]
 
-== Contrast: Cloud API vs Self-hosted on RHOAI
+Click into the item and familiarize yourself with the page. Note the description of the model, the model location, and performance insights based on tests Red Hat has done. When you are ready, click "Deploy model". This will take you to a wizard.
 
-[cols="1,2,2", options="header"]
-|===
-| Dimension
-| Without (Cloud API)
-| With (Self-hosted on RHOAI)
+1. Preconfigure deployment
+    1. Select the "models-as-a-service" project from the dropdown.
+2. Model details
+    1. Verify that this is a Generated AI model.
+3. Model deployment
+    1. Set the model deployment name to "gpt-oss-20b"
+    2. Select "LLM inference service with llm-d" as the Deployment method. This workshop won't be able to show the benefits of llm-d over base vLLM, but know that you can easily measure the differences even with a small handful of replicas. Notice that OpenShift AI makes it just as easy to deploy llm-d in the base configuration!
+    3. Select the NVIDIA GPU hardware profile we just created.
+    4. Deploy a single replica.
+4. Advanced settings
+    1. Set the first several options as in the image below. In particular, make sure that the AI asset endpoint and MaaS boxes are checked as they will be needed for the remainder of the workshop.
 
-| Cost
-| Per-token billing
-| Fixed infrastructure
+image::gpt-oss-deployment-options.png[Advanced settings in the GPT OSS deployment,align=center]
 
-| Latency
-| Network round-trip
-| Local inference 35.6ms TTFT
-
-| Data Sovereignty
-| Data leaves network
-| Stays in-cluster
-
-| Model Choice
-| Vendor's selection only
-| Full catalog
-
-| Scaling
-| Vendor-managed
-| llm-d with controlled replicas
-|===
+When you are ready, click deploy. The model will take several minutes to download and deploy, so please be patient!
 
 == Module Summary
 
 === What You Accomplished
 
 * Browsed the RHOAI Model Catalog and located validated Nemotron models
-* Deployed an LLM using both CPU and GPU hardware profiles
+* Created a hardware profile that enables use of an NVIDIA GPU
+* Deployed an LLM using your GPU hardware profile
 * Enabled llm-d distributed inference with configurable replicas
-* Ran quantized vs unquantized benchmarks and measured TTFT improvements
 
 === Key Takeaways
 
-* Quantized models deliver comparable quality at significantly lower latency (1.69x speedup in TTFT)
 * Self-hosted inference eliminates per-token costs and keeps data inside the cluster
 * llm-d provides scalable, distributed inference without manual load-balancing
 
 === What's Next
 
-In the next module you will publish the deployed model as a Models as a Service (MaaS) endpoint, enabling governed access for every team in the organization.
+In the next module you configure the deployed model as a Models as a Service (MaaS) endpoint, enabling governed access for every team in the organization.
