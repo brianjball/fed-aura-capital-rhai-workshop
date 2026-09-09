@@ -24,14 +24,14 @@ Estimated time: *25 minutes*
 
 By the end of this module you will be able to:
 
-* Navigate the RHOAI Model Catalog and identify validated models
+* Navigate the OpenShift AI Model Catalog and identify validated models
 * Deploy an LLM on CPU and understand hardware profile selection
 * Deploy with GPU and llm-d distributed inference
 * Benchmark quantized vs unquantized models and interpret TTFT metrics
 
 == Exercise 1: Explore the Model Catalog
 
-Browse the RHOAI Model Catalog, filter by task type, and identify NVIDIA Nemotron models available for deployment.
+Browse the OpenShift AI Model Catalog, filter by task type, and identify NVIDIA Nemotron models available for deployment.
 
 === Find the model catalog
 
@@ -71,16 +71,16 @@ image::gpt-oss-20b-essential.png[GPU configuration,align=center]
 Click into the item and familiarize yourself with the page. Note the description of the model, the model location, and performance insights based on tests Red Hat has done. When you are ready, click "Deploy model". This will take you to a wizard.
 
 1. Preconfigure deployment
-    1. Select the "models-as-a-service" project from the dropdown.
+    - Select the "models-as-a-service" project from the dropdown.
 2. Model details
-    1. Verify that this is a Generated AI model.
+    - Verify that this is a Generated AI model.
 3. Model deployment
-    1. Set the model deployment name to "gpt-oss-20b"
-    2. Select "LLM inference service with llm-d" as the Deployment method. This workshop won't be able to show the benefits of llm-d over base vLLM, but know that you can easily measure the differences even with a small handful of replicas. Notice that OpenShift AI makes it just as easy to deploy llm-d in the base configuration!
-    3. Select the NVIDIA GPU hardware profile we just created.
-    4. Deploy a single replica.
+    - Set the model deployment name to "gpt-oss-20b"
+    - Select "LLM inference service with llm-d" as the Deployment method. This workshop won't be able to show the benefits of llm-d over base vLLM, but know that you can easily measure the differences even with a small handful of replicas. Notice that OpenShift AI makes it just as easy to deploy llm-d in the base configuration!
+    - Select the NVIDIA GPU hardware profile we just created.
+    - Deploy a single replica.
 4. Advanced settings
-    1. Set the first several options as in the image below. In particular, make sure that the AI asset endpoint and MaaS boxes are checked as they will be needed for the remainder of the workshop.
+    - Set the first several options as in the image below. In particular, make sure that the AI asset endpoint and MaaS boxes are checked as they will be needed for the remainder of the workshop.
 
 image::gpt-oss-deployment-options.png[Advanced settings in the GPT OSS deployment,align=center]
 
@@ -90,7 +90,7 @@ When you are ready, click deploy. The model will take several minutes to downloa
 
 === What You Accomplished
 
-* Browsed the RHOAI Model Catalog and located validated Nemotron models
+* Browsed the OpenShift AI Model Catalog and located validated Nemotron models
 * Created a hardware profile that enables use of an NVIDIA GPU
 * Deployed an LLM using your GPU hardware profile
 * Enabled llm-d distributed inference with configurable replicas

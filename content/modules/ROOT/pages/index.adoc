@@ -32,13 +32,6 @@ This workshop assumes basic familiarity with Kubernetes concepts and a general u
 
 You will work with Fed Aura Capital's AI-powered mortgage lending platform, built with LangGraph multi-agent orchestration, Model Context Protocol (MCP) tools, and served on Red Hat OpenShift AI.
 
-Log into OpenShift with the following credentials:
-
-* Username: [.notranslate]#{user}#
-* Password: [.notranslate]#{password}#
-
-NOTE: All environment details and credentials are available in the lab interface.
-
 == Estimated time
 
 This workshop will take approximately *2 to 3 hours* to complete.

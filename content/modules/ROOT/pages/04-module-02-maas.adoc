@@ -14,7 +14,7 @@ Models as a Service (MaaS) provides that governed access path between consumers 
 .Module 2 focus: governed model access through MaaS
 image::fed-aura-platform-architecture-maas-focus.svg[The Fed Aura Capital platform architecture with the MaaS gateway and its path to self-hosted models highlighted,align=center]
 
-In this module, you will publish the deployed model as a MaaS endpoint, assign subscription tiers, issue API keys, and consume the shared endpoint from a development environment.
+In this module, you will assign subscription tiers, issue API keys, and consume the shared MaaS endpoint from a development environment.
 The model remains a single managed deployment while MaaS controls who can reach it, how they authenticate, and how much they consume.
 
 Estimated time: *20 minutes*
@@ -23,40 +23,82 @@ Estimated time: *20 minutes*
 
 By the end of this module you will be able to:
 
-* Publish a deployed model as a MaaS endpoint
 * Explore AI asset endpoints and subscription management
-* Generate ephemeral and permanent API keys
+* Generate MaaS API keys
 * Consume a MaaS endpoint from a development environment
+* Consume a MaaS endpoint from the Gen AI Playground
 
-== Exercise 1: Publish as MaaS
+== Exercise 1: Generate a Subscription
 
-Open the Deploy wizard, navigate to Advanced settings, enable the "Publish as MaaS" checkbox, and configure token authentication.
-
-TBD
-
-== Exercise 2: Explore AI Asset Endpoints
-
-Navigate to Gen AI Studio > AI asset endpoints, view the list of deployed models, and use the "Try in playground" option.
-
-TBD
-
-== Exercise 3: Generate an API Key
-
-Select a subscription tier and generate an ephemeral API key.
+Head back to OpenShift AI settings and click "MaaS governance". Create multiple subscriptions for the tiers in the list below. Set the group to "rhods-admin" and use your existing gpt-oss-20b model as the model. Have OpenShift AI create the authorization policy from the information you provided otherwise you will have to create it yourself!
 
 Available tiers:
 
 * *Free Tier* - 100 tokens/min
 * *Premium Tier* - 10000 tokens/min
 
-TBD
+Your page should look something like this:
+
+image::maas-subscriptions.svg[Free and Premium tier subscriptions,align=center]
+
+== Exercise 2: Generate an API Key
+
+Find the API Keys page under the GenAI Studio. Create an API Key for your premium subscription. It will start "sk-oai-" Copy the key somewhere you can retrieve it later. You will be unable to retrieve the key from OpenShift AI after you close the menu. Keys can also be revoked at any time after creation.
+
+== Exercise 3: Explore AI Asset Endpoints and test in the GenAI Playground
+
+Navigate to Gen AI Studio > AI asset endpoints, view the list of deployed models, and use the "Add to playground" option. Make sure the Project is "wksp-user1" before you get started. Make sure that gpt-oss-20b is selected, then click Create when you are ready.
+
+image::playground-creation.svg[The playground creation options,align=center]
+
+This will take you directly to the playground once it creates. The page will look like this:
+
+image::base-playground.svg[The GenAI playground,align=center]
+
+=== Model Test: GenAI Playground
+
+Before moving on, it's time to test our model! Open the GenAI Playground from the OpenShift AI dashboard and point it at the model you just deployed.
+Send a simple prompt - something like _"What is a fixed-rate mortgage?"_ - and confirm that the model responds.
+This is the fastest way to verify that the inference endpoint is live, and in Module 3 you will return to the Playground to shape Lenora's behavior with system prompts.
 
 == Exercise 4: Consume the MaaS Endpoint
 
-Configure OpenCode or VS Code to use the MaaS endpoint.
-Set up `opencode.json` with the MaaS URL and API key, then send a test request.
+Configure VS Code (or your preferred agentic harness!) to use the MaaS endpoint.
+Set up `config.json` with the MaaS URL and API key, then send a test request.
 
-TBD
+First, you need the model endpoint. Navigate to AI hub > Models and find the "Deployments" tab. You may need to change your project to see your deployed model. Click on the "Internal and external endpoint" link, and copy the endpoint shown.
+
+NOTE: You will need to add `/v1` to the endpoint for most calls to work.
+
+image::deployment-url.png[Model Endpoint,align=center]
+
+
+From OpenShift AI, go to Projects, find "wksp-user1", and create a workbench. The two important parameters here are the image and the hardware profile:
+* Image: Code Server | Data Science | CPU | Python 3.12
+* Hardware Profile: default-profile
+
+Once the workbench is ready, the name will turn into a clickable link, which will send you to VS Code. Find extensions and install "Continue". Once it has finished, it will create a ".continue" directory. Delete the file "config.yaml" and create a file named "config.json" with the following contents:
+
+```json
+{
+  "models": [
+    {
+      "title": "GPT OSS 20B",
+      "provider": "openai",
+      "model": "gpt-oss-20b",
+      "apiBase": "",
+      "apiKey": "",
+      "roles": ["chat", "edit", "apply", "summarize"]
+    }
+  ]
+}
+```
+
+From the Continue extension menu in VS Code, select the "Main Config" option and tell it to Reload.
+
+image::continue-reload.png[Continue Reload,align=center]
+
+If your model is not appearing, you may need to restart VS Code: From the Developer Commands (ctrl/cmd + shift + P), run the command "Developer: Reload Window". You should now be able to interact using Continue backed by your deployed model to develop in VS Code!
 
 == Contrast: Per-team Deployment vs MaaS Gateway
 
