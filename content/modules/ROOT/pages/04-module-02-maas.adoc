@@ -39,7 +39,7 @@ Available tiers:
 
 Your page should look something like this:
 
-image::maas-subscriptions.svg[Free and Premium tier subscriptions,align=center]
+image::maas-subscriptions.png[Free and Premium tier subscriptions,align=center]
 
 == Exercise 2: Generate an API Key
 
@@ -49,11 +49,11 @@ Find the API Keys page under the GenAI Studio. Create an API Key for your premiu
 
 Navigate to Gen AI Studio > AI asset endpoints, view the list of deployed models, and use the "Add to playground" option. Make sure the Project is "wksp-user1" before you get started. Make sure that gpt-oss-20b is selected, then click Create when you are ready.
 
-image::playground-creation.svg[The playground creation options,align=center]
+image::playground-creation.png[The playground creation options,align=center]
 
 This will take you directly to the playground once it creates. The page will look like this:
 
-image::base-playground.svg[The GenAI playground,align=center]
+image::base-playground.png[The GenAI playground,align=center]
 
 === Model Test: GenAI Playground
 
