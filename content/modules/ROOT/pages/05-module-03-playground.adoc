@@ -8,7 +8,7 @@
 Taming model behaviors with prompts.
 
 The previous modules made models available through governed endpoints.
-Now you will compare how three of those models behave and shape them into a consistent, customer-facing assistant.
+Now you will compare how this models behave and shape it into a consistent, customer-facing assistant.
 
 In this module, you will create a GenAI Playground connected to all available models--two locally deployed CPU models and one external model--and send the same basic prompts to each one.
 You will then design a system prompt for a customer-facing assistant, test and refine it across the models, and save the best version to the Prompt Registry.
@@ -31,11 +31,7 @@ By the end of this module, you will be able to:
 
 == Exercise 1: Create a Multi-model Playground
 
-Create a new GenAI Playground and add all three model endpoints available in your environment:
-
-* CPU model 1
-* CPU model 2
-* External model
+Create a new GenAI Playground and add the model endpoint available in your environment.
 
 Keep the default system prompt for now.
 The goal is to establish how each base model responds before you add Fed Aura-specific instructions.
@@ -57,30 +53,22 @@ Explain the difference between a fixed-rate and an adjustable-rate mortgage.
 What mortgage rate can Fed Aura Capital offer me today?
 ----
 
-Record the differences you observe.
+Note what you observe.
 
-[cols="1,1,1,1",options="header"]
+[cols="1,1",options="header"]
 |===
-| Observation | CPU model 1 | CPU model 2 | External model
+| Observation | model
 
 | Follows the requested tone
-| {nbsp}
-| {nbsp}
 | {nbsp}
 
 | Explains concepts clearly
 | {nbsp}
-| {nbsp}
-| {nbsp}
 
 | Avoids inventing a current rate
 | {nbsp}
-| {nbsp}
-| {nbsp}
 
 | Asks an appropriate follow-up question
-| {nbsp}
-| {nbsp}
 | {nbsp}
 |===
 
@@ -98,12 +86,12 @@ A strong prompt should define:
 * How it handles rates, policies, or other facts it cannot verify
 * What sensitive or internal information it must never expose
 
-Apply your system prompt to all three models and repeat the basic prompts from Exercise 1.
+Apply your system prompt to your model and repeat the basic prompts from Exercise 1.
 Refine the prompt until the responses are helpful, concise, and consistent without inventing company-specific facts.
 
 == Exercise 3: Save the Prompt to the Prompt Registry
 
-When you have a prompt that works well across the three models:
+When you have a prompt that works well:
 
 . Open the Prompt Registry from the Playground.
 . Save the system prompt with the name `fed-aura-customer-assistant`.

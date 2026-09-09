@@ -33,7 +33,10 @@ By the end of this module you will be able to:
 
 Browse the RHOAI Model Catalog, filter by task type, and identify NVIDIA Nemotron models available for deployment.
 
-TBD
+=== Find the model catalog
+
+image::model_catalog_navigation.png[To find the model catalog from OpenShift AI, click on "AI hub", then "Models". From the new page, click the "Catalog" tab.,align=center]
+
 
 == Exercise 2: Deploy a Model on CPU
 
