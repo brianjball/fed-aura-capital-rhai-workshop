@@ -10,7 +10,7 @@
 
 .Connecting Data to Models and Agents
 * xref:05-module-03-automl.adoc[Module 3: Predictive AI with AutoML]
-* xref:06-module-04-playground.adoc[Module 3: GenAI Playground]
+* xref:06-module-04-playground.adoc[Module 4: GenAI Playground]
 * xref:07-module-05-autorag.adoc[Module 5: RAG & AutoRAG]
 
 .Accelerate Agentic AI Innovation
