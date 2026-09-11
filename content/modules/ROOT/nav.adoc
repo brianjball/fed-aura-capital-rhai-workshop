@@ -9,10 +9,9 @@
 * xref:04-module-02-maas.adoc[Module 2: Models as a Service]
 
 .Connecting Data to Models and Agents
-* xref:05-module-03-playground.adoc[Module 3: GenAI Playground]
-* xref:06-module-04-automl.adoc[Module 4: Predictive AI with AutoML]
+* xref:05-module-03-automl.adoc[Module 3: Predictive AI with AutoML]
+* xref:06-module-04-playground.adoc[Module 3: GenAI Playground]
 * xref:07-module-05-autorag.adoc[Module 5: RAG & AutoRAG]
-* xref:08-module-06-ogx.adoc[Module 6: OGX]
 
 .Accelerate Agentic AI Innovation
 * xref:09-module-07-mcp-ecosystem.adoc[Module 7: MCP Ecosystem]
