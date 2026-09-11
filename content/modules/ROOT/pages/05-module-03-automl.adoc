@@ -1,0 +1,134 @@
+= (Optional) Module 3: Predictive AI with AutoML
+:navtitle: AutoML
+:imagesdir: ../assets/images
+:toc:
+:toc-placement: preamble
+:icons: font
+
+Less gut feelings, more math.
+
+Underwriters at Fed Aura Capital manually evaluate every loan application. Each review takes 5+ days, decisions vary depending on who reviews the file, and there is no structured audit trail beyond narrative notes. The board wants a predictive model to assist underwriting decisions, but the data science team lacks the ML engineering resources to build one from scratch. In this module, you will use AutoML in Red Hat OpenShift AI to train a classification model on historical loan data - no code required.
+
+== Learning Objectives
+
+By the end of this module, you will be able to:
+
+* Explore a loan application training dataset and understand its features
+* Create and configure an AutoML optimization run for binary classification
+* Analyze AutoML results including model accuracy and leaderboard ranking
+* Interpret feature importance to understand what drives loan decisions
+
+== Prerequisites
+
+At this point, the administrator's work is finished. We have enabled the Engineers and Data Scientists to build the systems that use our platform and models. Please log out of OpenShift and OpenShift AI and log back in to both using "user1".
+
+== Exercise 1: Explore the Training Data
+
+For this exercise, we are going to use a dataset provided with the workshop. The data has already been loaded into S3 for you. You can either pull it from there or find it on https://github.com/brianjball/fed-aura-capital-rhai-workshop/blob/dev/templates/dspa/00-dspa.yaml[GitHub]. Notice the following about the dataset:
+
+- There are 12 columns: no_of_dependents, graduated, self_employed, income_annum, loan_amount, loan_term, cibil_score (a form of credit score), residential_assets_value, commercial_assets_value, luxury_assets_value, bank_asset_value, and loan_approved
+- The loan_approved column is the target field, and is binary, which means this is a binary classification problem.
+- Every other field is a valid feature (no id fields to filter)
+- graduated and self-employed are both binary inputs
+
+What other notable features do you see in the data?
+
+=== (Optional) Load the data into a workbench to analyze
+
+Click on Projects on the sidenav, then click the "wksp-user1" project that appears in the list. Create a workbench with your preferred options, using the "Jupyter | Data Science | CPU | Python 3.12" image. For example, your workbench might look something like this:
+
+image::analysis-workbench.png[Analysis workbench,align=center]
+
+Open the workbench, find the Git button in the sidenav, then clone this repository: https://github.com/brianjball/fed-aura-capital-rhai-workshop. Use the same menu to switch to the dev branch. You may need to navigate inside the folder before you switch branches.
+
+Now create a notebook and use it to load the data. For example, you may use:
+
+```Python
+from pandas import read_csv
+
+data = read_csv("fed-aura-capital-rhai-workshop/templates/automl/cleaned_loan_data.csv")
+data["loan_approved"]  # List out all of the loan_approved values in the dataset.
+```
+
+Feel free to use Python to analyze the data and build your own model!
+
+== Exercise 2: Create an AutoML Run
+
+Navigate to Develop & train > AutoML in OpenShift AI. Click "Create run" and give the run a name like "loan_approval".
+
+On the next page, our first task is to select the data. From the S3 connection box, use the dropdown to find "automl". This is a Data Connection registered in OpenShift AI that has the credentials to access the S3 bucket where our data exists. Click "Browse bucket". There is one option here which we will select, called "cleaned_loan_data.csv".
+
+image::automl-data.png[Selecting data for AutoML,align=center]
+
+Now that data has been loaded, you can choose your target column. Select the "loan_approved" column. Notice that the OpenShift AI defaults for this problem are pretty good: OpenShift AI has chosen them based on the values it detected in the loan_approved column.
+
+image::automl-target-column.png[Select the target column for AutoML,align=center]
+
+When you are ready, tell it to begin the run and wait patiently for a few minutes as OpenShift AI runs its autoML algorithms.
+
+== Exercise 3: Analyze AutoML Results
+
+Once our run has completed, we can analyze the results. We can see the full pipeline that was run as well as parameters about the run and how long it took. Below that, we can see the specific models that were tested and how well they performed.
+
+Our best performing model is LightGBMLarge_BAG_L1_FULL with 98.7% accuracy.
+
+image::automl-results.png[AutoML results page,align=center]
+
+== Exercise 4: Interpret Feature Importance
+
+Click on our champion model. It pulls up information about the model and will allow us to save the model off.
+
+image::automl-detailed-results.png[AutoML detailed results page,align=center]
+
+Click on the Feature summary tab to get an explanation of which features matter most to predicting whether a loan is going to be approved or not. Does this help you to understand what the model is doing?
+
+Last, click on the Confusion matrix in the evaluation section. How many false positives and false negatives did you get? Would you deploy this model into a production system based on these results?
+
+== Before and After: Manual vs AutoML Underwriting
+
+[cols="1,1,1",options="header"]
+|===
+| Dimension | Without (Manual Underwriting) | With (AutoML Predictive Model)
+
+| Speed
+| 5+ days per application
+| Sub-second prediction
+
+| Consistency
+| Varies by underwriter
+| Same model, same logic
+
+| Explainability
+| "Professional judgment"
+| Feature importance with percentages
+
+| Accuracy
+| Unknown (no baseline)
+| 0.987 accuracy, 0.986 balanced accuracy
+
+| Audit Trail
+| Narrative notes
+| Structured model outputs + traces
+|===
+
+== Module Summary
+
+=== What You Accomplished
+
+* Explored a real-world loan application dataset with features like credit score, available assets, and employment status
+* Created an AutoML optimization run that automatically trained and ranked multiple classification models
+* Identified the best-performing model (LightGBMLarge_BAG_L1_FULL) with 98.7% accuracy and 98.6% balanced accuracy
+* Interpreted feature importance to understand which factors most strongly drive loan approval decisions
+
+=== Key Takeaways
+
+* AutoML removes the ML engineering barrier - you upload a CSV, select a prediction type, and get a ranked leaderboard of models
+* The winning model uses cibil_score (44.8%) and loan_term (7.0%) as its strongest predictive features
+* Balanced accuracy (0.986) is more meaningful than raw accuracy (0.987) for evaluating model performance because it accounts for class imbalance
+* Feature importance provides the explainability that regulators and auditors require - no more "professional judgment" as the sole justification
+
+=== What's Next
+
+The model now behaves like a domain expert and can predict loan outcomes, but it still relies entirely on its training data for knowledge. In Module 5, you will ground the model in Fed Aura Capital's private policy documents using RAG and AutoRAG, so Lenora can answer questions about specific rates, FHA guidelines, and TRID disclosures.
+
+Estimated time: *25 minutes*

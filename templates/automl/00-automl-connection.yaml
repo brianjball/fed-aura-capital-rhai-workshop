@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: automl
+  namespace: wksp-user1
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/managed: "true"
+  annotations:
+    opendatahub.io/connection-type: s3
+    opendatahub.io/connection-type-protocol: s3
+    opendatahub.io/connection-type-ref: s3
+    openshift.io/display-name: automl
+type: Opaque
+data:
+  AWS_ACCESS_KEY_ID: dXNlcjE=
+  AWS_DEFAULT_REGION: d29uZGVybGFuZA==
+  AWS_S3_BUCKET: YXV0b21s
+  AWS_S3_ENDPOINT: aHR0cDovL21pbmlvLndrc3AtdXNlcjEuc3ZjLmNsdXN0ZXIubG9jYWw6OTAwMA==
+  AWS_SECRET_ACCESS_KEY: dGhpc2lzdGhlcGFzc3dvcmQ=

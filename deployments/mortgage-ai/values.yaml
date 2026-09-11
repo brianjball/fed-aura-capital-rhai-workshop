@@ -201,7 +201,7 @@ minio:
   enabled: true
   name: minio
   image:
-    repository: minio/minio
+    repository: quay.io/minio/minio
     tag: latest
   persistence:
     enabled: true

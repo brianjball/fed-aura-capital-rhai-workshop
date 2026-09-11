@@ -26,8 +26,8 @@ secrets:
   MINIO_ROOT_PASSWORD: "thisisthepassword"
 
   # LLM - replace with your MaaS endpoint
-  LLM_BASE_URL: "https://gpt-oss-20b-models-as-a-service.apps.cluster-5lnzx.5lnzx.sandbox3235.opentlc.com/v1"
-  LLM_API_KEY: "eyJhbGciOiJSUzI1NiIsImtpZCI6IktveTlBUXhYWmxqTWJwcFZObEtzN0dkZHhvV0pLNFprYktMMTFtam5jWjQifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJtb2RlbHMtYXMtYS1zZXJ2aWNlIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6ImRlZmF1bHQtbmFtZS1ncHQtb3NzLTIwYi1zYSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50Lm5hbWUiOiJncHQtb3NzLTIwYi1zYSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6ImQxZGMwNGI1LWQ1NzUtNDJiNy1iNjFjLTI1M2NhMDZmMjhjYSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDptb2RlbHMtYXMtYS1zZXJ2aWNlOmdwdC1vc3MtMjBiLXNhIn0.Rg0JFuNelPNSy5723kCOJj9Wh2mEhDYcmNg8XF4U1QAAsH3BznYEWowXI0WlyduDhwMT9USTx85gKasWeB1LOVp3LQ-OgDFx-fGMoxPTqvY3NDyRuDnpzCmGLNNUxTFrXGfxS1fzudHqPS-dHQ1XK1UyW-pf1eNY-_GTaL1WAoJqS1uhf6lU_XA6GbRGBIeUsabXkXFY2iObk0Yc12Ocaz9GIyq5d3xNhzANAaUR0DhgxwzJLDmXysK8QvtkKz_2K7z5KBta2GfyULbxzk1L0PrtUafZfvezsF5O3ORe8NIiaWPTO0uXDhlBAuuVJ9KQNcZPJEbHK0PnvtIL5auV3FkExEYCnIGCdtIHa3QhlTrg-zszS8dR-frgAoY6U-KazHOXVFhMlZaCgtVyTPlZ2Kbt0H91VgUVNOvhbGu8VD2A62MnnGKuAJhQpvBmmHlDGC7kaAdNy3-Mv2hLYgyaGC1wyawvayJr40UufGaBtc3LNDdsh0m6M1aJILSKCBUUNXucwQDnFtqtOqFlN4pWJWxtYpfnxKI0d2kFlFHNb30nnMTRIrrgao46uGAMcLW-brz5Tx460OVqKAq_zFoL8JYuNw5eu1z-jr5PzIfcH2y8up-wscLBOMN-n7kHqYzVv4SaKHBSYVkwxmJZlrLXiO3kR5GiUh1KXROw4qV-hi8"
+  LLM_BASE_URL: "https://maas-url/v1"
+  LLM_API_KEY: "REPLACE_ME"
   LLM_MODEL: "gpt-oss-20b"
 
   # MCP risk server - deployed in mcp-servers namespace (templates/mcp)
@@ -42,7 +42,7 @@ secrets:
   MLFLOW_TRACKING_TOKEN: ""
   MLFLOW_EXPERIMENT_NAME: "mortgage-ai"
   MLFLOW_WORKSPACE: "wksp-user1"
-  MLFLOW_TRACKING_INSECURE_TLS: "false"  # FIXME: true
+  MLFLOW_TRACKING_INSECURE_TLS: "true"
 
 # Disable components handled by other templates
 keycloak:

@@ -29,13 +29,13 @@ spec:
     externalStorage:
       basePath: ''
       bucket: pipeline
-      host: minio-service.wksp-user1.svc.cluster.local:9000
+      host: minio.wksp-user1.svc.cluster.local:9000
       port: ''
       region: wonderland
       s3CredentialsSecret:
         accessKey: AWS_ACCESS_KEY_ID
         secretKey: AWS_SECRET_ACCESS_KEY
-        secretName: pipeline
+        secretName: automl
       scheme: http
   persistenceAgent:
     deploy: true

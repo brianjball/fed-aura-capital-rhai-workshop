@@ -60,6 +60,10 @@ image::gpu-resource.png[GPU configuration,align=center]
 
 We also need to increase the memory allowance for the hardware profile. Modify the Memory default and maximum to 6Gib and 8Gib respectively.
 
+Finally, add a toleration at the bottom of the page, setting that nvidia.com/gpu exists with an effect of NoSchedule. The GPU node has been tainted so that you cannot schedule any workloads to it without the specific toleration. The purpose of this is to prevent us from filling up the node with CPU workloads and being unable to use the GPU as a result.
+
+image::hardware-profile-toleration.png[GPU toleration configuration,align=center]
+
 Click create hardware profile when you are done.
 
 === Deploy GPT OSS 20B
@@ -80,7 +84,8 @@ Click into the item and familiarize yourself with the page. Note the description
     - Select the NVIDIA GPU hardware profile we just created.
     - Deploy a single replica.
 4. Advanced settings
-    - Set the first several options as in the image below. In particular, make sure that the AI asset endpoint and MaaS boxes are checked as they will be needed for the remainder of the workshop.
+    - Set the first several options as in the image below. In particular, make sure that the MaaS box is checked as that will be needed for the remainder of the workshop.
+    - Check the "Add custom runtime arguments" box and add the following options to enable tool calling for our model: --enable-auto-tool-choice --tool-call-parser=openai
 
 image::gpt-oss-deployment-options.png[Advanced settings in the GPT OSS deployment,align=center]
 

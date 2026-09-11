@@ -34,8 +34,8 @@ Head back to OpenShift AI settings and click "MaaS governance". Create multiple 
 
 Available tiers:
 
-* *Free Tier* - 100 tokens/min
-* *Premium Tier* - 10000 tokens/min
+* *Free Tier* - 100 tokens/sec, for developers
+* *Premium Tier* - 10000 tokens/sec, for admin
 
 Your page should look something like this:
 
