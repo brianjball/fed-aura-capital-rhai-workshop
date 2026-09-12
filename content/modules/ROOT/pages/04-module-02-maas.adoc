@@ -146,4 +146,4 @@ If your model is not appearing, you may need to restart VS Code: From the Develo
 
 === What's Next
 
-In the next module you will build on this MaaS endpoint to integrate model access into automated pipelines and production workflows.
+The models can now behave like Fed Aura Capital's customer-facing assistant, but they still cannot predict loan outcomes. In Module 3, you will use AutoML to build a predictive model that assists underwriting decisions based on historical loan data.

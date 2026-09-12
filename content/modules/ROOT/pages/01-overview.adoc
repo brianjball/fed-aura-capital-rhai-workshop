@@ -5,11 +5,22 @@
 :toc-placement: preamble
 :icons: font
 
+== Learning objectives
+
+By the end of this section, you will be able to:
+
+* Describe what {company_name} is and why it rebuilt its AI platform
+* Explain the CTO's four-phase platform rebuild and the problems each phase solved
+* Identify the persona-based agent architecture that powers {assistant_name}
+* Navigate the workshop's modular structure and understand how modules connect
+
 == What is this workshop about?
 
 Traditional AI demos show a model answering questions. Production AI requires a complete platform: model serving, governed access, domain grounding, tool integration, observability, evaluation, and security. Each capability solves a real business problem, and they must work together.
 
-This workshop takes you through the full Red Hat OpenShift AI product portfolio by putting you inside a real production deployment. You've just joined *Fed Aura Capital* as an engineer — the AI platform is already running, and your job is to understand every layer of it. Each module introduces a capability, shows you what Fed Aura Capital's setup looks like in practice, and gives you hands-on time with the same tools. By the end, you'll know why the platform looks the way it does and what each component contributes.
+This workshop takes you through the full Red Hat AI product portfolio by putting you inside a real production deployment. You've just joined *Fed Aura Capital* as an engineer — the AI platform is already running, and your job is to understand every layer of it. Each module introduces a capability, shows you what Fed Aura Capital's setup looks like in practice, and gives you hands-on time with the same tools. By the end, you'll know why the platform looks the way it does and what each component contributes.
+
+image::agentic-app2.png[{company_name} landing page with {assistant_name} assistant responding to a mortgage product inquiry,link=self,window=blank,width=700]
 
 == Meet Fed Aura Capital
 
@@ -31,17 +42,3 @@ Each of these phases solved a real problem.
 ____
 
 *Your job*: explore each of those four phases throughout this workshop and understand the platform well enough to support it.
-
-== A quick orientation: try this first
-
-Before diving into the modules, spend a few minutes with Lenora. Log in as Sarah Mitchell (borrower) and try a few of these prompts:
-
-* _"What is the minimum down payment for an FHA loan?"_
-* _"Can you estimate how much house I can afford on a $120,000 salary?"_
-* _"What documents do I need to submit for pre-qualification?"_
-
-Then log in as David Park (CEO) and ask:
-
-* _"What is our loan approval rate this quarter?"_
-
-Notice what's different. Hold those observations — the next section and the modules ahead will explain exactly why Lenora responds the way she does to each persona.

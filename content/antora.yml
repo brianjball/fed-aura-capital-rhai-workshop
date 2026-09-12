@@ -1,5 +1,5 @@
 name: modules
-title: "Fed Aura Capital AI Workshop with Red Hat OpenShift AI"
+title: "Fed Aura Capital AI Workshop with Red Hat AI"
 version: ~
 nav:
   - modules/ROOT/nav.adoc
@@ -7,7 +7,7 @@ asciidoc:
   attributes:
     page-pagination: true
     # Lab metadata
-    lab_name: "Fed Aura Capital AI Workshop with Red Hat OpenShift AI"
+    lab_name: "Fed Aura Capital AI Workshop with Red Hat AI"
     company_name: "Fed Aura Capital"
     assistant_name: "Lenora"
     # Version placeholders - can be overridden by Showroom at runtime

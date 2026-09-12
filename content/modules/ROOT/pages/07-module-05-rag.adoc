@@ -1,5 +1,5 @@
-= Module 5: RAG and AutoRAG
-:navtitle: RAG and AutoRAG
+= Module 5: RAG & Knowledge Grounding
+:navtitle: RAG & Knowledge Grounding
 :imagesdir: ../assets/images
 :toc:
 :toc-placement: preamble
@@ -103,7 +103,7 @@ Confirm that the response returns *7 years*, *3 years*, and *10 years*, respecti
 
 [cols="1,1,1",options="header"]
 |===
-| Dimension | Without RAG | With RAG / AutoRAG
+| Dimension | Without RAG | With RAG
 
 | Knowledge Source
 | Model's training data (generic, stale)
@@ -134,10 +134,10 @@ Confirm that the response returns *7 years*, *3 years*, and *10 years*, respecti
 === Key Takeaways
 
 * A model with a good system prompt still cannot answer organization-specific questions without access to private documents
-* AutoRAG in the GenAI Playground removes the complexity of setting up vector databases, chunking strategies, and embedding pipelines - you toggle it on and upload files
+* RAG in the GenAI Playground removes the complexity of setting up vector databases, chunking strategies, and embedding pipelines - you toggle it on and upload files
 * RAG-grounded responses reduce regulatory risk by making answers traceable to source documents
 * Knowledge updates happen in minutes (upload a new document) instead of days or weeks (retrain the model)
 
 === What's Next
 
-In Module 6, you will explore OGX capabilities within Red Hat OpenShift AI.
+With the Data wave complete, you have shaped model behavior with prompts, built predictive models with AutoML, and grounded responses in private documents with RAG. In Module 6, you will begin the Agentic wave by connecting agents to real tools via the MCP Ecosystem.

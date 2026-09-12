@@ -1,4 +1,4 @@
-== Module 3: GenAI Playground
+== Module 4: GenAI Playground
 :navtitle: GenAI Playground
 :imagesdir: ../assets/images
 :toc:
@@ -177,4 +177,4 @@ Compare this prompt with your registered prompt and keep the version that produc
 
 === What's Next
 
-The models can now behave like Fed Aura Capital's customer-facing assistant, but they still cannot predict loan outcomes. In Module 4, you will use AutoML to build a predictive model that assists underwriting decisions based on historical loan data.
+In the next section, you will enable RAG in the Playground, upload a real document, and see how the model’s answers change when it has access to Fed Aura Capital’s product catalog.

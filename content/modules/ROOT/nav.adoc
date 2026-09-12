@@ -10,14 +10,15 @@
 
 .Connecting Data to Models and Agents
 * xref:05-module-03-automl.adoc[Module 3: Predictive AI with AutoML]
-* xref:06-module-04-playground.adoc[Module 4: GenAI Playground]
-* xref:07-module-05-autorag.adoc[Module 5: RAG & AutoRAG]
+* xref:06-module-04-system-prompts.adoc[Module 4: System Prompts]
+* xref:07-module-05-rag.adoc[Module 5: RAG & Knowledge Grounding]
 
 .Accelerate Agentic AI Innovation
-* xref:09-module-07-mcp-ecosystem.adoc[Module 7: MCP Ecosystem]
-* xref:10-module-08-evaluations-tracing.adoc[Module 8: Evaluations & Tracing]
+* xref:08-module-06-mcp-ecosystem.adoc[Module 6: MCP Ecosystem]
+* xref:09-module-07-evaluations-tracing.adoc[Module 7: Evaluations & Tracing]
 
 .Securing AI from Sandbox to Production
+* xref:10-module-08-putting-it-together.adoc[Module 8: Running the Production Application]
 * xref:11-module-09-ai-safety.adoc[Module 9: AI Safety & Secure Agent Onboarding]
 
 .Conclusion

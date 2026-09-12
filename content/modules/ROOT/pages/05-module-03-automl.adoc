@@ -129,6 +129,6 @@ Last, click on the Confusion matrix in the evaluation section. How many false po
 
 === What's Next
 
-The model now behaves like a domain expert and can predict loan outcomes, but it still relies entirely on its training data for knowledge. In Module 5, you will ground the model in Fed Aura Capital's private policy documents using RAG and AutoRAG, so Lenora can answer questions about specific rates, FHA guidelines, and TRID disclosures.
+The model now behaves like a domain expert and can predict loan outcomes, but it still relies entirely on its training data for knowledge. In Module 4, you will ground the model in Fed Aura Capital's private policy documents using RAG, so Lenora can answer questions about specific rates, FHA guidelines, and TRID disclosures.
 
 Estimated time: *25 minutes*

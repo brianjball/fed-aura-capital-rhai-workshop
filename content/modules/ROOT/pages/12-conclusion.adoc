@@ -22,7 +22,7 @@ Throughout this workshop, you progressed through four transformation waves, taki
 
 * Shaped model behavior with domain-specific system prompts in the GenAI Playground
 * Trained a predictive underwriting model with AutoML achieving 91.7% accuracy
-* Grounded responses in private policy documents with RAG and AutoRAG
+* Grounded responses in private policy documents with RAG
 * Explored OGX capabilities for advanced data workflows
 
 === Wave 3 - Agentic: "From useful to productive AI"
@@ -88,7 +88,7 @@ Throughout this workshop, you progressed through four transformation waves, taki
 
 1. *The platform is the product.* Individual AI capabilities (inference, RAG, agents) are powerful alone, but their value multiplies when integrated on a single platform with shared observability and governance.
 
-2. *Zero to Hero is achievable.* Every module started from nothing and built a real capability. AutoML trains models without ML engineering. AutoRAG enables RAG without vector database setup. MaaS publishes models without custom infrastructure.
+2. *Zero to Hero is achievable.* Every module started from nothing and built a real capability. AutoML trains models without ML engineering. MaaS publishes models without custom infrastructure.
 
 3. *Contrast drives understanding.* By showing what life looks like without each capability, you can articulate the business value of every investment in the AI platform.
 

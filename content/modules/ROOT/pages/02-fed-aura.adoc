@@ -36,7 +36,7 @@ _"From generic to useful AI"_
 
 A deployed model is still generic. Lenora could not quote Fed Aura Capital's rates, did not know internal policies, and gave textbook answers with disclaimers.
 
-The platform now shapes Lenora into a domain expert through configured system prompts stored in the Prompt Registry, and grounds her responses in the bank's private documents via RAG. AutoRAG handles this at pipeline scale. OGX ties the API surface together.
+The platform now shapes Lenora into a domain expert through configured system prompts stored in the Prompt Registry, and grounds her responses in the bank's private documents via RAG. OGX ties the API surface together.
 
 [cols="1,1",options="header"]
 |===
@@ -46,7 +46,7 @@ The platform now shapes Lenora into a domain expert through configured system pr
 | No way to update model knowledge without retraining | Upload new documents; knowledge updates in minutes
 |===
 
-*Modules*: GenAI Playground, RAG & AutoRAG, OGX
+*Modules*: GenAI Playground, RAG, OGX
 
 === Wave 3 — Accelerate Agentic AI Innovation
 

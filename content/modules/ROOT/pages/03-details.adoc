@@ -44,8 +44,8 @@ The corresponding button to get from OpenShift AI to OpenShift is called "OpenSh
 | AutoML
 | Automated Machine Learning. A capability in RHOAI that lets you train and compare ML models through a guided wizard without writing model training code. You upload data, select a prediction type, and AutoML builds and ranks multiple models.
 
-| AutoRAG
-| Automated Retrieval-Augmented Generation. A feature in the RHOAI GenAI Playground that enables RAG with a simple toggle and file upload, without requiring manual vector database setup.
+| RAG
+| Retrieval-Augmented Generation. A feature in the RHOAI GenAI Playground that enables RAG with a simple toggle and file upload, without requiring manual vector database setup.
 
 | Chatterbox
 | A company acquired by Red Hat whose advanced risk analysis technology has been integrated into Garak, EvalHub, and SDG Hub. Enables a full adversarial testing flow: define a policy, generate synthetic attack prompts via SDG Hub, attack the model via Garak, and produce a report via EvalHub showing where the model breaks.
@@ -128,4 +128,4 @@ The corresponding button to get from OpenShift AI to OpenShift is called "OpenSh
 | Contributors | CAI Team, Brian Ball
 |===
 
-Last Updated: July 2026
+Last Updated: September 2026

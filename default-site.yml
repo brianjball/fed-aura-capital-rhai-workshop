@@ -1,6 +1,6 @@
 ---
 site:
-  title: "Fed Aura Capital AI Workshop with Red Hat OpenShift AI"
+  title: "Fed Aura Capital AI Workshop with Red Hat AI"
   url: https://rh-aiservices-bu.github.io/fed-aura-capital-rhai-workshop
   start_page: modules::index.adoc
 
