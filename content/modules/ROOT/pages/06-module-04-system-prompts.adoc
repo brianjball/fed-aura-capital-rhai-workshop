@@ -1,33 +1,183 @@
-== Module 4: GenAI Playground
-:navtitle: GenAI Playground
+== Module 4: System Prompts
+:navtitle: System Prompts
 :imagesdir: ../assets/images
 :toc:
 :toc-placement: preamble
 :icons: font
 
-Taming model behaviors with prompts.
+Private data for best results.
 
-The previous modules made models available through governed endpoints.
-Now you will compare how this models behave and shape it into a consistent, customer-facing assistant.
-
-In this module, you will create a GenAI Playground connected to all available models--two locally deployed CPU models and one external model--and send the same basic prompts to each one.
-You will then design a system prompt for a customer-facing assistant, test and refine it across the models, and save the best version to the Prompt Registry.
-If you prefer to start from an established example, you can load Fed Aura Capital's system prompt and compare it with your own.
+{assistant_name} in the {company_name} application already gives accurate, product-specific answers grounded in internal documents.
+In this section, you will start from a bare model, add a system prompt, and discover where system prompts hit their limits - setting the stage for RAG.
 
 .Module 3 focus: versioned prompts in the MLflow Prompt Registry
 image::fed-aura-platform-architecture-prompt-registry-focus.svg[The Fed Aura Capital platform architecture with the MLflow Prompt Registry highlighted,align=center]
 
-Estimated time: *20 minutes*
+Estimated time: *15 minutes*
 
 == Learning Objectives
 
-By the end of this module, you will be able to:
+By the end of this section, you will be able to:
 
-* Create a GenAI Playground connected to multiple model endpoints
-* Compare responses from two CPU-hosted models and one external model
-* Design and refine a system prompt for a customer-facing assistant
-* Save and version a successful system prompt in the Prompt Registry
-* Load Fed Aura Capital's reference prompt as an optional starting point
+* Explain why system prompt engineering alone is not sufficient for production knowledge grounding
+* Configure and test system prompts in the GenAI Playground
+* Describe the difference between a system prompt and a user prompt, and which one takes priority
+
+== The question you already know the answer to
+
+In the Overview section, you saw a screenshot of the {company_name} application. The explore products option was selected and {assistant_name} responded with a detailed comparison of mortgage products - rates, terms, eligibility, down payment requirements. That answer was not generic. It was grounded in {company_name}'s internal product data.
+
+The question behind that button was essentially this:
+
+[source,text]
+----
+What mortgage products do you offer? I'd like to compare my options.
+----
+
+image::module5-prospect-products.png[{assistant_name} responding with mortgage product options in the {company_name} application,link=self,window=blank,width=700]
+
+== Your Playground is ready
+
+In Module 2, you created a GenAI Playground connected to three model endpoints - two CPU-hosted models and one external model. You will use that same Playground for the rest of this module.
+
+TIP: If you skipped Module 2, create a new Playground now and add all three available model endpoints before continuing.
+
+. Open the GenAI Playground you created in Module 2:
++
+image::base-playground.png[GenAI Playground,link=self,window=blank,width=700]
++
+Clear any previous conversation history so you start with a clean slate. Click **New Chat** in the upper right corner of the GenAI Playground.
+
+=== What is a system prompt?
+
+Before jumping into the exercises, let's clarify how prompting works. There are two parts to every prompt:
+
+[cols="1,2,2",options="header"]
+|===
+| Part | What it does | Example
+
+| **System Prompt**
+| Sets the model's role and behavior. Designed by application owners. The end user never sees it.
+| "You are a helpful mortgage assistant."
+
+| **User Prompt**
+| The actual question or task from the user.
+| "What mortgage products do you offer?"
+|===
+
+These two parts are combined into a single input to the model. The key thing to know: the model follows the **system prompt more than the user prompt**. It has been trained to prioritize system-level instructions.
+
+== Exercise 1: System Prompts - Shaping Model Behavior
+
+=== Try something fun first
+
+Before getting into mortgage details, let's prove that system prompts work with a quick experiment.
+
+. In the Playground, open **Settings** and select the **Prompt** tab. Enter the following system prompt:
++
+[source,text]
+----
+You are an AI assistant who talks like Gen Z. You are designed to use as many emojis as possible.
+----
++
+image::system-prompt-genz.png[Gen Z system prompt in the Playground Settings Prompt tab,link=self,window=blank,width=500]
+
+. Save the prompt. Give it a name like `genz-fed-aura-capital` and click **Create**:
++
+image::system-prompt-save.png[Save prompt dialog with Gen Z prompt,link=self,window=blank,width=500]
+
+. Now send the thread prompt:
++
+[source,text]
+----
+What mortgage products do you offer? I'd like to compare my options.
+----
++
+The model responds with emojis everywhere. Entertaining, but not useful for a mortgage customer. The system prompt controls behavior, but the model has no actual product knowledge. The product names are real based on trained knowledge but there isn't any detailed information about the rates, for example.
++
+image::mortgage-rates-basic.png[Gen Z system prompt response with mortgage product names,link=self,window=blank,width=700]
+
+The system prompt took priority - the model followed the system instructions over the user's normal mortgage question.
+
+=== Add domain knowledge to the prompt
+
+[start=4]
+. Click **Reset** to clear the prompt, then enter this domain-specific version:
++
+[source,text]
+----
+You are a mortgage assistant for Fed Aura Capital. Fed Aura Capital offers these
+mortgage products:
+
+- 30-Year Fixed Rate: 6.25% APR, minimum 620 credit score, 3% minimum down payment
+- 15-Year Fixed Rate: 5.75% APR, minimum 640 credit score, 5% minimum down payment
+- FHA Loan: 6.50% APR, minimum 580 credit score, 3.5% minimum down payment
+- VA Loan: 5.95% APR, no minimum credit score, 0% down payment
+- Jumbo Loan: 6.75% APR, minimum 700 credit score, 10% minimum down payment
+
+Always present products in a comparison format. Be helpful and professional.
+----
++
+
+. Save the updated prompt. Name it `lenora-mortgage-prompt` and click **Create**:
++
+image::module5-domain-prompt-save.png[Save prompt dialog with domain mortgage prompt,link=self,window=blank,width=700]
+
+. Send the same question again:
++
+[source,text]
+----
+What mortgage products do you offer? I'd like to compare my options.
+----
++
+This time the model responds with specific {company_name} products, rates, and eligibility criteria. The answer looks good - exactly what a customer would need.
++
+image::lenora-rate-response.png[Domain prompt response showing mortgage product comparison with the lenora-mortgage-prompt loaded,link=self,window=blank,width=700]
+
+=== Why this approach breaks down
+
+What you just did is called **context injection** - manually adding information into the prompt so the model can use it. The model did not _learn_ this data; you handed it a cheat sheet. But the cheat sheet has to fit: models have a **maximum context window**, and performance degrades as prompts get longer.
+
+IMPORTANT: Prompt engineering is valuable for defining persona and behavior, but it is not the right tool for injecting large, changing knowledge bases. Here is why:
+
+* **Context window limits**: Five product descriptions fit. An entire underwriting manual, compliance guide, and rate sheet library does not.
+* **Maintenance burden**: When rates change or new products launch, someone must update every system prompt manually. There is no single source of truth.
+* **Staleness**: The prompt is static text baked into the configuration. It does not know when information becomes outdated.
+* **Scale**: {company_name} has policy documents, compliance manuals, rate sheets, product guides, and regulatory filings. You cannot paste all of them into a prompt.
+
+When you saved the pirate prompt earlier, you used the **Prompt Registry** - a platform feature for versioning and tracking prompts. You can compare versions, roll back changes, and share prompts across teams. That solves the versioning problem. But it does not solve the knowledge problem. Even a perfectly versioned prompt cannot hold an entire document library.
+
+The system prompt should define _who the assistant is_ and _how it behaves_. The knowledge it needs to answer questions should come from somewhere else. That somewhere else is RAG.
+
+== Recap
+
+[cols="1,2",options="header"]
+|===
+| Concept | Key takeaway
+
+| System Prompt
+| Sets model behavior. Takes priority over user input.
+
+| User Prompt
+| The question from the user. Answered within the system prompt's boundaries.
+
+| Context injection
+| Adding information into the prompt so the model can use it. Works, but does not scale.
+
+| Context window limits
+| Models have a maximum input size. You cannot paste everything.
+
+| Prompt Registry
+| Version and track prompts as platform assets. Solves versioning, not knowledge.
+|===
+
+== What's next
+
+In the next section, you will enable RAG in the Playground, upload a real document, and see how the model's answers change when it has access to {company_name}'s product catalog.
+
+
+
+
 
 == Exercise 1: Create a Multi-model Playground
 
