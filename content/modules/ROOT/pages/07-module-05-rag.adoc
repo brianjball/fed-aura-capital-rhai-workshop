@@ -32,7 +32,7 @@ By the end of this section, you will be able to:
 
 . Upload `fed-aura-product-catalog.txt` to the Playground knowledge source. Wait until the document finishes processing.
 
-image::rag-data-upload.svg[The Gen AI Playground with fed-aura-product-catalog.txt uploaded,align=center]
+image::rag-data-upload.png[The Gen AI Playground with fed-aura-product-catalog.txt uploaded,align=center]
 
 . Send the same question you have been asking all along:
 +
@@ -43,7 +43,7 @@ What mortgage products do you offer? I'd like to compare my options.
 +
 The model responds with product details grounded in the uploaded document. It should reference the five products, their rates, credit score requirements, and down payment minimums - all pulled from the catalog, not from training data or a hardcoded prompt.
 
-image::rag-response.svg[The query response having pulled data from RAG,align=center]
+image::rag-response.png[The query response having pulled data from RAG,align=center]
 
 . For a more specific test, ask a follow-up that requires precise retrieval:
 +
@@ -54,7 +54,7 @@ What are the cash reserve requirements for a Jumbo Loan, and what is the rate lo
 +
 The model should return that Jumbo Loans require 12 months of mortgage payments in cash reserves, and that rate locks are available for 30, 45, or 60 days at no cost with an extended 90-day lock for a 0.125% fee. These details are in the document - they are not general knowledge.
 
-image::rag-followup-query.svg[The follow-up query response having pulled data from RAG,align=center]
+image::rag-followup-query.png[The follow-up query response having pulled data from RAG,align=center]
 
 NOTE: Because the application uses generative AI, responses are non-deterministic. The exact wording and formatting may differ, but the factual content should match the uploaded document.
 
@@ -122,7 +122,7 @@ What mortgage products do you offer? I'd like to compare my options.
 +
 The response should now match {assistant_name}'s style from the live application - welcoming tone, concise product descriptions, a follow-up question about the borrower's situation. The facts come from RAG. The style comes from the system prompt. Together, they reproduce what {assistant_name} does in the {company_name} app.
 
-image::lenora-production-response.svg[Lenora's response with RAG and system prompts working together,align=center]
+image::lenora-production-response.png[Lenora's response with RAG and system prompts working together,align=center]
 
 TIP: RAG provides the facts. The system prompt provides the personality. Production AI assistants need both. The GenAI Playground lets you iterate on each independently.
 
