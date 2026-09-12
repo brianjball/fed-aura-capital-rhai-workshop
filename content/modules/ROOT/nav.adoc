@@ -15,10 +15,10 @@
 
 .Accelerate Agentic AI Innovation
 * xref:08-module-06-mcp-ecosystem.adoc[Module 6: MCP Ecosystem]
-* xref:09-module-07-evaluations-tracing.adoc[Module 7: Evaluations & Tracing]
 
 .Securing AI from Sandbox to Production
-* xref:10-module-08-putting-it-together.adoc[Module 8: Running the Production Application]
+* xref:09-module-07-putting-it-together.adoc[Module 7: Running the Production Application]
+* xref:10-module-08-tracing.adoc[Module 8: Tracing With MLflow]
 * xref:11-module-09-ai-safety.adoc[Module 9: AI Safety & Secure Agent Onboarding]
 
 .Conclusion

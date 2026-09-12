@@ -1,10 +1,10 @@
-= Putting Everything Together
+= Module 7: Putting Everything Together
 :imagesdir: ../assets/images
 :navtitle: Explore the Platform
 :toc: macro
 :toclevels: 1
 
-You have the background. The CTO told you why the platform was rebuilt. The previous page showed you the four pillars and the architecture. Now it is time to see it running and interact with it yourself.
+You have the background. The CTO told you why the platform was rebuilt. We've built out our prompts, RAG database, and MCP servers. Now it is time to see it running and interact with it yourself.
 
 == Learning objectives
 
@@ -15,22 +15,11 @@ By the end of this section, you will be able to:
 * Interact with {assistant_name} as different personas and observe how responses change based on role
 * Connect running pods to the platform architecture diagram
 
+== Exercise 1:
+
 == Exercise 1: Access the environment and verify the deployment
 
-TIP: Throughout this workshop, all key services are accessible as *tabs* in the workshop interface - no need to open separate browser windows.
-
-. First, log in to the OpenShift cluster from the **Terminal** tab:
-+
-[source,console,role=execute,subs=attributes+]
-----
-oc login --insecure-skip-tls-verify $(oc whoami --show-server) -u {user} -p {password}
-----
-
-. Navigate to the *OCP Console* tab. Log in with the same credentials you just used: username `{user}`, password `{password}`:
-+
-image::agentic-app-pre1.png[OpenShift SSO login page,link=self,window=blank,width=500]
-
-. Once logged in, you will see the `Projects` page and a single project: `{user_project}`. Navigate to **Workloads > Pods** to see the platform components running in your namespace:
+. Head over to the OpenShift Console as user1. Once logged in, you will see the `Projects` page and a single project: user1. Navigate to **Workloads > Pods** to see the platform components running in your namespace:
 +
 image::workloads-pods.png[]
 +
@@ -38,6 +27,23 @@ If you do not see pods, make sure you select your project:
 +
 image::select-project.png[]
 image::agentic-app0.png[OpenShift Console Pods view showing mortgage-ai components running,link=self,window=blank,width=700]
+
+The application is mostly configured, but it needs the connection to your model. Scroll down the sidenav to Workloads > Secrets, and from there find the "mortgage-ai-secret" (look for the secret with 49 keys!).
+
+image::mortgage-ai-secret.png[OpenShift Console Secrets view highlighting mortgage-ai-secret,link=self,window=blank,width=700]
+
+Click in to the secret, the click Actions > Edit Secret. There are 2 values we need to update, identically to how we configured VS Code in Module 2.
+- LLM_BASE_URL (don't forget the trailing `/v1`!)
+- LLM_API_KEY
+
+Finally, restart the mortgage-api pods:
+
++
+[source,console,role=execute,subs=attributes+]
+----
+oc rollout restart deployment/mortgage-ai-api -n wksp-user1
+----
++
 
 . Check the API service health endpoint:
 +
@@ -92,9 +98,14 @@ Now that you have confirmed the platform is healthy, open the application and in
 
 === Try the Prospect experience (unauthenticated)
 
-. Navigate to the *{company_name} App* tab:
+. Open the *{company_name} App*:
+
+Open the result of this command in your web browser:
+[source,console,role=execute,subs=attributes+]
+----
+oc get route mortgage-ai-ui-route -n wksp-user1 -o jsonpath='{.spec.host}'
+----
 +
-image::mortgage-app.png[]
 
 . Scroll down a bit. Try a sample conversation by clicking the **Explore Products** button:
 +
@@ -208,48 +219,7 @@ The platform captured all of it automatically. You will trace every step in Modu
 
 Now that you have seen the platform running, let's connect what you observed to the architecture.
 
-. Return to the **Terminal** tab. List all pods and their containers:
-+
-[source,bash,role=execute,subs=attributes+]
-----
-oc get pods -n {user_project} -o custom-columns="NAME:.metadata.name,STATUS:.status.phase,CONTAINERS:.spec.containers[*].name"
-----
-+
-You should see 5 core pods running. Here is what each one does:
-+
-[cols="1,2",options="header"]
-|===
-|Component |Purpose
-
-|mortgage-ai-api
-|**One FastAPI pod** containing all 5 agent implementations, routes by persona via WebSocket
-
-|mortgage-ai-ui
-|React frontend for interacting with agents through persona-specific interfaces
-
-|mortgage-ai-db
-|PostgreSQL with pgvector for document storage and RAG embeddings
-
-|minio
-|S3-compatible object storage for uploaded documents
-
-|keycloak
-|Identity provider for persona-based authentication and role-based access control
-|===
-+
-[#api-endpoints]
-**API endpoints (all served by the same `mortgage-ai-api` pod):**
-+
-[source,text]
-----
-/api/prospect/chat    - Prospect Agent (initial inquiries)
-/api/borrower/chat    - Borrower Agent (application intake)
-/api/loanofficer/chat - Loan Officer Agent (pipeline management)
-/api/underwriter/chat - Underwriter Agent (risk assessment)
-/api/ceo/chat         - Executive Agent (analytics)
-----
-
-. Review the architecture diagram below. Each pod you just listed maps to a component in this diagram:
+. Review the architecture diagram below and identify the components we've interacted with:
 +
 [#fed-aura-platform-architecture]
 .{company_name} AI platform architecture
@@ -257,7 +227,7 @@ image::fed-aura-platform-architecture.svg[Diagram showing {assistant_name} conne
 +
 The platform is built around a set of cooperating components. At the center is {assistant_name} - a set of persona-specific agents orchestrated with LangGraph and powered by self-hosted models served through vLLM. Each agent has access to domain knowledge via RAG, can call real tools via MCP, and is observable through MLflow tracing. All inference goes through the MaaS gateway, which enforces access control and usage metering. NeMo Guardrails filter inputs and outputs at the boundary. OpenShell sandboxes agent execution with deny-by-default policies.
 
-**Mapping pods to architecture:**
+**Mapping components to architecture:**
 
 [cols="1,2,2",options="header"]
 |===
@@ -284,58 +254,6 @@ The platform is built around a set of cooperating components. At the center is {
 |OIDC identity provider. Authenticates users and maps them to personas with role-based access control.
 |===
 
-**It is not just the LLM.** A production AI system involves many components working together. The LLM is one part of a larger pipeline that includes data retrieval, tool execution, identity management, and observability. The architecture layers map directly to the workshop modules:
-
-[cols="1,2,2",options="header"]
-|===
-|Architecture Layer |Components |Workshop Modules
-
-|Inference
-|vLLM, llm-d, MaaS
-|Module 1 (Model Catalog), Module 2 (MaaS)
-
-|Data
-|pgvector, RAG, Prompt Registry
-|Module 5 (System Prompts, RAG & AutoRAG)
-
-|Agentic
-|LangGraph, MCP, MLflow
-|Module 4 (AutoML), Module 7 (MCP), Module 8 (Evaluations)
-
-|Security
-|NeMo Guardrails, Garak, OpenShell
-|Module 9 (AI Safety)
-|===
-
-[%collapsible]
-.Architecture deep-dives: focused diagrams per layer (click to expand)
-====
-Each module zooms in on one layer of this architecture. You can refer back to these diagrams at any time.
-
-[cols="1,1,2",options="header"]
-|===
-|Focus Area |Diagram |Relevant Modules
-
-|Self-hosted models
-|image:fed-aura-platform-architecture-models-focus.svg[Models focus,width=200,link=self,window=blank]
-|Module 1 (Model Catalog), Module 2 (MaaS)
-
-|MaaS Gateway
-|image:fed-aura-platform-architecture-maas-focus.svg[MaaS focus,width=200,link=self,window=blank]
-|Module 2 (Models as a Service)
-
-|Prompt Registry
-|image:fed-aura-platform-architecture-prompt-registry-focus.svg[Prompt Registry focus,width=200,link=self,window=blank]
-|Module 5 (System Prompts)
-
-|RAG Pipeline
-|image:fed-aura-platform-architecture-rag-focus.svg[RAG focus,width=200,link=self,window=blank]
-|Module 5 (RAG & AutoRAG)
-|===
-====
-
-IMPORTANT: You do not need to understand every component now. Each module focuses on one layer. This exercise gives you the map so you know where each module fits in the bigger picture.
-
 == Section summary
 
 **What you accomplished:**
@@ -343,14 +261,12 @@ IMPORTANT: You do not need to understand every component now. Each module focuse
 * Logged in to OpenShift and verified all platform components are running and healthy
 * Confirmed API and database health via the health endpoint
 * Interacted with {assistant_name} as Prospect, Borrower, and CEO, observing how responses change by persona
-* Connected running pods to the platform architecture diagram
 
 **Key takeaways:**
 
 * The mortgage-ai system runs as a single FastAPI service with 5 LangGraph agents, each serving a different persona with different tools and permissions
-* Every request is automatically traced by MLflow, capturing the full decision path from input to output
 * The platform is built from cooperating components - inference, data grounding, tool access, observability, and security - each addressed by a dedicated module in this workshop
 
 **Next steps:**
 
-You have explored the running platform and seen what it does. Starting with Module 1, you will rebuild understanding of each layer, beginning with self-hosted model inference.
+You have explored the running platform and seen what it does. Now you need to focus on day 2 operations to make sure the system is performing as expected.

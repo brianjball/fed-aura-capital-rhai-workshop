@@ -121,3 +121,55 @@ Throughout the workshop, you'll interact with the platform as different Fed Aura
 image::fed-aura-platform-architecture.svg[Diagram showing Lenora connected to persona agents, self-hosted models, MCP tools, a RAG vector database, MLflow observability, and platform security layers,align=center]
 
 The platform is built around a set of cooperating components. At the center is Lenora — a set of persona-specific agents orchestrated with LangGraph and powered by self-hosted models served through vLLM. Each agent has access to domain knowledge via RAG, can call real tools via MCP, and is observable through MLflow tracing. All inference goes through the MaaS gateway, which enforces access control and usage metering. NeMo Guardrails filter inputs and outputs at the boundary. OpenShell sandboxes agent execution with deny-by-default policies.
+
+**It is not just the LLM.** A production AI system involves many components working together. The LLM is one part of a larger pipeline that includes data retrieval, tool execution, identity management, and observability. The architecture layers map directly to the workshop modules:
+
+[cols="1,2,2",options="header"]
+|===
+|Architecture Layer |Components |Workshop Modules
+
+|Inference
+|vLLM, llm-d, MaaS
+|Module 1 (Model Catalog), Module 2 (MaaS)
+
+|Data
+|pgvector, RAG, Prompt Registry
+|Module 5 (System Prompts, RAG & AutoRAG)
+
+|Agentic
+|LangGraph, MCP, MLflow
+|Module 4 (AutoML), Module 7 (MCP), Module 8 (Evaluations)
+
+|Security
+|NeMo Guardrails, Garak, OpenShell
+|Module 9 (AI Safety)
+|===
+
+[%collapsible]
+.Architecture deep-dives: focused diagrams per layer (click to expand)
+====
+Each module zooms in on one layer of this architecture. You can refer back to these diagrams at any time.
+
+[cols="1,1,2",options="header"]
+|===
+|Focus Area |Diagram |Relevant Modules
+
+|Self-hosted models
+|image:fed-aura-platform-architecture-models-focus.svg[Models focus,width=200,link=self,window=blank]
+|Module 1 (Model Catalog), Module 2 (MaaS)
+
+|MaaS Gateway
+|image:fed-aura-platform-architecture-maas-focus.svg[MaaS focus,width=200,link=self,window=blank]
+|Module 2 (Models as a Service)
+
+|Prompt Registry
+|image:fed-aura-platform-architecture-prompt-registry-focus.svg[Prompt Registry focus,width=200,link=self,window=blank]
+|Module 5 (System Prompts)
+
+|RAG Pipeline
+|image:fed-aura-platform-architecture-rag-focus.svg[RAG focus,width=200,link=self,window=blank]
+|Module 5 (RAG & AutoRAG)
+|===
+====
+
+IMPORTANT: You do not need to understand every component now. Each module focuses on one layer. This exercise gives you the map so you know where each module fits in the bigger picture.

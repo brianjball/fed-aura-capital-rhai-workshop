@@ -1,0 +1,86 @@
+= (Optional) Module 8: Tracing with MLflow
+:navtitle: Tracing With MLflow
+:imagesdir: ../assets/images
+:toc:
+:toc-placement: preamble
+:icons: font
+
+Monitoring and measuring every AI decision.
+
+Fed Aura Capital is running agentic AI for risk assessments. Regulators require full traceability. The CTO needs to know if the AI is making correct recommendations, what tools it called, how long each step took, and whether prompt changes cause regressions. Without observability, the system is a black box. With MLflow tracing and EvalHub, every agent decision is recorded, measurable, and auditable.
+
+== Learning Objectives
+
+By the end of this module, you will be able to:
+
+* Navigate MLflow Experiments and explore agent traces
+* Deep-dive into a multi-step agent trace to understand the full decision path
+* Verify that predictive model integration (AutoML from Module 4) appears in agent traces
+
+== Exercise 1: Track LLM Performance
+
+Log back in as "admin".
+
+In OpenShift AI, click "Observe & monitor" > "Dashboard". Here we can monitor the performance of our models and the GPUs they run on. Try the different tabs and see what you can find. 
+
+=== Why does this matter?
+
+When you are hosting your own LLMs, you are responsible for maintaining performance. When performance starts to degrade, you need to be able to understand why. It could be due to GPU performance, cache hit rate, kueue length, or any number of reasons. The dashboards provided here will help you identify the problem, then drill down into the potential reasons so that you can remediate them.
+
+=== Token Usage
+
+In particular, one question everybody always has is how to track token usage. Click on the Usage tab and you can see detailed information broken out by model or subscription. How many tokens have you used going through all of these exercises?
+
+image::token-consumption.png[The OpenShift AI Observability dashboard showing token consumption,align=center]
+
+== Exercise 1: Explore MLflow Experiments
+
+In the 3x3 grid icon near your username (in either OpenShift or OpenShift AI), find the MLflow button and click it to open the MLflow UI.
+
+image::mlflow-button.png[The MLFlow button in the list of Applications,align=center]
+
+
+Navigate to the MLflow Experiments interface and locate the traced risk assessment requests for the mortgage-ai project. You will need to be in the "wksp-user1" workspace to see it.
+
+image::mlflow-experiment.png[The MLFlow mortgage-ai experiment where traces are stored,align=center]
+
+== Exercise 2: Deep-Dive into a Trace
+
+Click on Observability > Traces. You will see the queries you made on the Mortgage AI application here. 
+
+image::mortgage-traces.png[The traces of calls you have made in the Mortgage application,align=center]
+
+Open a full agent trace and walk through the complete decision path, from input shields to tool calls to final recommendation. I would recommend looking at the Details & Timeline tab for a graph showing how the calls progressed. See what you can find in here!
+
+image::mortgage-detailed-trace.png[The specific trace of the call you selected,align=center]
+
+=== Implementing MLflow Traces
+
+MLflow now has native support for Kubernetes. Furthermore, the tracing is also nearly automatic. As long as your Python application is running in OpenShift, you only need a few items to integrate it.
+
+First, you will need to pip install `mlflow[kubernetes]`. This package handles all of the gritty details for you. In your Python code, you only need three lines from here:
+
+```Python
+import mlflow
+import os
+
+mlflow.set_tracking_uri("your-mlflow-url")  # Tell your application where MLflow is running
+os.environ["MLFLOW_TRACKING_AUTH"]="kubernetes-namespaced"  # Tell it you're running in Kubernetes and it will automatically handle namespace-level multitenancy
+mlflow.openai.autolog()  # Enable tracing
+```
+
+OpenShift AI comes with a ClusterRole that manages the permissions to enable the integration. The role is called "mlflow-operator-mlflow-integration". So long as you bind your service account to this role, the code will work.
+
+== Module Summary
+
+=== What You Accomplished
+
+* Navigated MLflow Experiments and explored the list of traced risk assessment requests
+* Deep-dived into a multi-step agent trace (16.81s latency, five tool calls) and understood the full decision path from input_shield to final recommendation
+
+=== Key Takeaways
+
+* MLflow tracing provides full observability into every agent decision - what tools were called, what inputs they received, what outputs they produced, and how long each step took
+* Every request is automatically traced by MLflow, capturing the full decision path from input to output
+
+Estimated time: *30 minutes*
