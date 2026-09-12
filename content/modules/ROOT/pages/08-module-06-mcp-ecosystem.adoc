@@ -7,71 +7,49 @@
 
 Tools that let agents interact with other systems.
 
-Lenora can answer questions about mortgages, but she cannot take action. Ask a regular chatbot "I make $100K, have $500 monthly debt, and $20K down payment. How much house can I afford?" and you get a range - "$390K-$410K" - hedged with assumptions and disclaimers. An agentic chatbot with MCP tool access calls `affordability_calc` and returns "$488,000" precisely, calculated from your actual numbers. The difference is not smarter prompting. The difference is tool access.
+Lenora can answer questions about mortgages, but she cannot take action. Ask a regular chatbot "I make $100K, have $500 monthly debt, and $20K down payment. What is my DTI profile?" and you get the right percentage and a generic answer about it being good for most mortgages. An agentic chatbot with MCP tool access calls `calculate_dti` and returns "Low" precisely, calculated from your actual numbers. The difference is not smarter prompting. The difference is tool access.
 
 == Learning Objectives
 
 By the end of this module, you will be able to:
 
 * Understand the difference between a regular chatbot and an agentic chatbot with tool access
-* Explore MCP server registrations in the RHOAI console
-* Examine MCPServerRegistration CRDs in OpenShift
-* Verify the MCP gateway route and connectivity
+* Explore MCP server registrations in the OpenShift AI console
 * Use MCP tools through the GenAI Playground
 
-== Exercise 1: Compare Regular vs Agentic Responses
 
-Send the same mortgage affordability question to both a regular chatbot and an agentic chatbot with MCP tools. The regular chatbot estimates a range with assumptions. The agentic chatbot calls `affordability_calc` and returns an exact figure.
+== Exercise 1: Explore MCP Servers in OpenShift AI
 
-TBD
+Navigate to AI hub > "MCP servers" in OpenShift AI.
 
-// Side-by-side comparison:
-// Query: "I make $100K, have $500 monthly debt, and $20K down payment. How much house can I afford?"
-// Regular chatbot: "$390K-$410K" with assumptions and "verify with a professional"
-// Agentic chatbot: calls affordability_calc, returns "$488,000" with precise calculation breakdown
+image::mcp-servers.png[The MCP Catalog,align=center]
 
-== Exercise 2: Explore MCP Servers in RHOAI
+Here you can find and deploy MCP servers, similar to the Model Catalog.
 
-Navigate to the RHOAI console and locate the registered MCP servers that provide Lenora with tool access.
+== Exercise 2: Explore MCP Servers in Gen AI Playground
 
-TBD
+Navigate to the MCP tab of your playground settings and locate the registered MCP servers that provide Lenora with tool access.
 
-// Gen AI Studio > AI asset endpoints > MCP servers tab
-// Two registered servers:
-// - Predictive-AI-Loan-Approval-Assessment-MCP
-// - Risk-Server-MCP-Server
+image::playground-mcp.png[The Gen AI Playground with its registered MCP servers,align=center]
 
-== Exercise 3: Examine MCPServerRegistrations in OpenShift
+Check the Risk-MCP-Server box and it will prompt you to add it. If this MCP Server required credentials, you could input them here. Now click "Edit tool selection" to see a list of tools. You can enable and disable individual tool calls from this screen. From the normal settings, you can return to this list by clicking the count of tools in the tools column.
 
-Inspect the MCPServerRegistration custom resources that define how MCP servers are registered and managed in the cluster.
+image::available-tools.png[Which tools are available for the Risk-MCP-Server,align=center]
 
-TBD
+The reason why you might enable or disable tools is that models can get confused by tools and choose the wrong ones. This is especially prominent the more tools you add, and the smaller your model.
 
-// OCP Console > Custom Resource Definitions > MCPServerRegistrations
-// mortgage-ai project contains:
-// - predictive-ai-loan-mcp
-// - risk-server-mcp
+== Exercise 3: Use MCP Tools in Playground
 
-== Exercise 4: Verify the MCP Gateway
+If you need to validate that MCP is working correctly, Weather MCP servers are a good "Hello World". Once you are convinced everything is working as expected, let's take it to our {assistant_name} system to improve it further.
 
-Confirm that the MCP gateway is running and accessible via its external route.
+Send the same mortgage affordability question to both a regular chatbot and an agentic chatbot with MCP tools. The regular chatbot estimates a range with assumptions. The agentic chatbot calls `calculate_dti` and returns an exact figure.
 
-TBD
+[source,text]
+----
+I make $100K, have $500 monthly debt, and $20K down payment. What is my DTI profile?
+----
 
-// gateway-system project > Routes
-// mcp-gateway route with external URL
-// Verify connectivity to the gateway endpoint
-
-== Exercise 5: Use MCP Tools in Playground
-
-Connect the GenAI Playground to MCP tools and send a query that triggers tool use, observing how the agent calls tools and returns precise results.
-
-TBD
-
-// Playground > Configure > MCP tab
-// Connect to MCP server
-// Send a query that triggers tool use (e.g., affordability calculation)
-// Observe the tool call and precise response
+Try the query again without the MCP server and see how the answer is more generic.
 
 == Before and After: Regular Chatbot vs Agentic Chatbot
 
@@ -81,15 +59,15 @@ TBD
 
 | Tool Access
 | None
-| `affordability_calc`, `risk_assessment`, `pricing_engine`
+| `calculate_dti`
 
 | Answer Precision
 | Estimates with assumptions
 | Exact calculations from real tools
 
 | User Guidance
-| "Verify with a professional"
-| "Based on $100K income... you can afford $488,000"
+| "This is generally considered low DTI"
+| "Based on $100K income... your DTI is Low"
 
 | Governance
 | N/A
@@ -101,9 +79,6 @@ TBD
 === What You Accomplished
 
 * Compared regular chatbot responses (estimates with disclaimers) against agentic responses powered by MCP tools (precise, tool-backed calculations)
-* Explored MCP server registrations in the RHOAI console and identified the two registered servers
-* Examined MCPServerRegistration CRDs in OpenShift and understood how they define tool access
-* Verified the MCP gateway route and confirmed external connectivity
 * Used MCP tools through the GenAI Playground and observed tool-calling behavior
 
 === Key Takeaways
@@ -115,6 +90,6 @@ TBD
 
 === What's Next
 
-Lenora can now call tools and deliver precise answers. But how do you know those answers are correct? In Module 8, you will use MLflow and EvalHub to trace every agent decision and measure quality with automated evaluation pipelines.
+Lenora can now call tools and deliver precise answers. But how do you know those answers are correct? In Module 7, you will use MLflow and EvalHub to trace every agent decision and measure quality with automated evaluation pipelines.
 
 Estimated time: *25 minutes*
