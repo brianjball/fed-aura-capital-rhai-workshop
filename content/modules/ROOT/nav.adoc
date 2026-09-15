@@ -19,7 +19,6 @@
 .Securing AI from Sandbox to Production
 * xref:09-module-07-putting-it-together.adoc[Module 7: Running the Production Application]
 * xref:10-module-08-tracing.adoc[Module 8: Tracing With MLflow]
-* xref:11-module-09-ai-safety.adoc[Module 9: AI Safety & Secure Agent Onboarding]
 
 .Conclusion
 * xref:12-conclusion.adoc[Conclusion]
