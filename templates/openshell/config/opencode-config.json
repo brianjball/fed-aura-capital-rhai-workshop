@@ -1,0 +1,28 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "litellm/gemma-4-31B-it-NVFP4",
+  "small_model": "litellm/gemma-4-31B-it-NVFP4",
+  "enabled_providers": ["litellm"],
+  "plugin": ["@mlflow/opencode"],
+  "provider": {
+    "litellm": {
+      "api": "openai",
+      "name": "LiteLLM",
+      "env": ["OPENAI_API_KEY"],
+      "options": {
+        "baseURL": "${LITELLM_BASE_URL}"
+      },
+      "models": {
+        "gemma-4-31B-it-NVFP4": {
+          "name": "Gemma 4",
+          "tool_call": true,
+          "reasoning": true,
+          "attachment": false,
+          "temperature": true,
+          "limit": { "context": 65535, "output": 16384 },
+          "cost": { "input": 0, "output": 0 }
+        }
+      }
+    }
+  }
+}

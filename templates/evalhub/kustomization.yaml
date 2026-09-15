@@ -9,3 +9,4 @@ resources:
   - 05-secret-patcher.yaml
   - 06-rbac-tenant.yaml
   - 07-netpol-evalhub-ui.yaml
+  - 08-rbac-auth-reviewer.yaml
