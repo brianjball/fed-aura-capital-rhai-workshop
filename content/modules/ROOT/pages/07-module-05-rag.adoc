@@ -28,7 +28,7 @@ By the end of this section, you will be able to:
 
 . Enable **RAG**.
 
-. Download the {company_name} product catalog: xref:attachment$fed-aura-product-catalog.txt[{company_name} Mortgage Product Catalog]
+. Download the {company_name} product catalog: xref:attachment$fed-aura-product-catalog.txt[{company_name} Mortgage Product Catalog] ( https://github.com/rh-aiservices-bu/fed-aura-capital-rhai-workshop/blob/dev/content/modules/ROOT/assets/attachments/fed-aura-product-catalog.txt )
 
 . Upload `fed-aura-product-catalog.txt` to the Playground knowledge source. Wait until the document finishes processing.
 
