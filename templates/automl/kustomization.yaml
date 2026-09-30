@@ -1,0 +1,15 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-automl-connection.yaml
+  - 01-automl-bucket-job.yaml
+configMapGenerator:
+  - name: automl-training-data
+    namespace: wksp-user1
+    files:
+      - cleaned_loan_data.csv
+    options:
+      disableNameSuffixHash: true
+      labels:
+        app: automl

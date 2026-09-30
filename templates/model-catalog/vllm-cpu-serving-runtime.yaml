@@ -1,0 +1,58 @@
+---
+kind: Template
+apiVersion: template.openshift.io/v1
+metadata:
+  name: vllm-cpu-template
+  namespace: redhat-ods-applications
+  labels:
+    opendatahub.io/dashboard: 'true'
+  annotations:
+    opendatahub.io/apiProtocol: REST
+    opendatahub.io/model-type: '["generative"]'
+    opendatahub.io/modelServingSupport: '["single"]'
+objects:
+  - apiVersion: serving.kserve.io/v1alpha1
+    kind: ServingRuntime
+    metadata:
+      annotations:
+        opendatahub.io/accelerator-name: ''
+        opendatahub.io/apiProtocol: REST
+        opendatahub.io/recommended-accelerators: ''
+        opendatahub.io/template-display-name: CUSTOM - vLLM Serving Runtime for CPU
+        opendatahub.io/template-name: vllm-cpu
+        openshift.io/display-name: CUSTOM - vLLM Serving Runtime for CPU
+      name: vllm-cpu
+      labels:
+        opendatahub.io/dashboard: 'true'
+    spec:
+      builtInAdapter:
+        modelLoadingTimeoutMillis: 90000
+      containers:
+        - args:
+            - '--model'
+            - /mnt/models
+            - '--port'
+            - '8080'
+            - '--max-model-len'
+            - '2048'
+            - '--served-model-name'
+            - '{{.Name}}'
+          command:
+            - python
+            - '-m'
+            - vllm.entrypoints.openai.api_server
+          env:
+            - name: HF_HOME
+              value: /tmp/hf_home
+            - name: VLLM_CPU_KVCACHE_SPACE
+              value: '4'
+          image: registry.redhat.io/rhaiis/vllm-cpu-rhel9@sha256:f05e773647dddd37ec6c2215cb14bec87e4ab5a7d37f2e110d16cd92355427d3
+          name: kserve-container
+          ports:
+            - containerPort: 8080
+              name: http1
+              protocol: TCP
+      multiModel: false
+      supportedModelFormats:
+        - autoSelect: true
+          name: vLLM

@@ -1,0 +1,18 @@
+---
+# Enable gateway discovery in the RHOAI dashboard
+# This patches the odhdashboardconfig to show the Gateway field
+# in the LLMInferenceService deploy wizard
+#
+# Apply with:
+#   oc patch odhdashboardconfig odh-dashboard-config \
+#     -n redhat-ods-applications \
+#     --type merge \
+#     -p '{"spec":{"dashboardConfig":{"llmGatewayField":true}}}'
+apiVersion: opendatahub.io/v1alpha
+kind: OdhDashboardConfig
+metadata:
+  name: odh-dashboard-config
+  namespace: redhat-ods-applications
+spec:
+  dashboardConfig:
+    llmGatewayField: true

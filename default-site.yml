@@ -1,0 +1,23 @@
+---
+site:
+  title: "Fed Aura Capital AI Workshop with Red Hat AI"
+  url: https://rh-aiservices-bu.github.io/fed-aura-capital-rhai-workshop
+  start_page: modules::index.adoc
+
+content:
+  sources:
+    - url: .
+      start_path: content
+
+ui:
+  bundle:
+    url: https://github.com/rhpds/rhdp_showroom_theme/releases/download/latest/ui-bundle.zip
+    snapshot: true
+  supplemental_files:
+    - path: ./content/supplemental-ui
+
+runtime:
+  fetch: true
+
+output:
+  dir: ./www

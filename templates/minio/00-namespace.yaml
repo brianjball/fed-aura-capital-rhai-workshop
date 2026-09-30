@@ -1,0 +1,7 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wksp-user1
+  labels:
+    opendatahub.io/dashboard: "true"

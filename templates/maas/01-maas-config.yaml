@@ -1,0 +1,8 @@
+---
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: Config
+metadata:
+  name: default
+spec:
+  limitadorScrapeInterval: 30s
+  usageLogging: false

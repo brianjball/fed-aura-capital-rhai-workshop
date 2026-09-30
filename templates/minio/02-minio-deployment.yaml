@@ -1,0 +1,68 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: minio
+  namespace: wksp-user1
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: minio
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: minio-pvc
+      containers:
+        - name: minio
+          image: quay.io/minio/minio:RELEASE.2023-06-19T19-52-50Z
+          imagePullPolicy: IfNotPresent
+          args:
+            - server
+            - /data
+            - --console-address
+            - :9090
+          env:
+            - name: MINIO_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: minio_root_user
+            - name: MINIO_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: minio-secret
+                  key: minio_root_password
+          ports:
+            - containerPort: 9000
+              protocol: TCP
+            - containerPort: 9090
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: /data
+              subPath: minio
+          resources:
+            requests:
+              cpu: 20m
+              memory: 100Mi
+            limits:
+              cpu: 250m
+              memory: 1Gi
+          livenessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 30
+            periodSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: 9000
+            initialDelaySeconds: 5
+            periodSeconds: 5

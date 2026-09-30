@@ -1,0 +1,9 @@
+---
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: AITenant
+metadata:
+  name: models-as-a-service
+  namespace: ai-tenants
+spec:
+  gateway:
+    name: maas-default-gateway

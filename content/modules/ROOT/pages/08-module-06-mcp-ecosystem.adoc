@@ -1,0 +1,95 @@
+= Module 7: MCP Ecosystem
+:navtitle: MCP Ecosystem
+:imagesdir: ../assets/images
+:toc:
+:toc-placement: preamble
+:icons: font
+
+Tools that let agents interact with other systems.
+
+Lenora can answer questions about mortgages, but she cannot take action. Ask a regular chatbot "I make $100K, have $500 monthly debt, and $20K down payment. What is my DTI profile?" and you get the right percentage and a generic answer about it being good for most mortgages. An agentic chatbot with MCP tool access calls `calculate_dti` and returns "Low" precisely, calculated from your actual numbers. The difference is not smarter prompting. The difference is tool access.
+
+== Learning Objectives
+
+By the end of this module, you will be able to:
+
+* Understand the difference between a regular chatbot and an agentic chatbot with tool access
+* Explore MCP server registrations in the OpenShift AI console
+* Use MCP tools through the GenAI Playground
+
+
+== Exercise 1: Explore MCP Servers in OpenShift AI
+
+Navigate to AI hub > "MCP servers" in OpenShift AI.
+
+image::mcp-servers.png[The MCP Catalog,align=center]
+
+Here you can find and deploy MCP servers, similar to the Model Catalog.
+
+== Exercise 2: Explore MCP Servers in Gen AI Playground
+
+Navigate to the MCP tab of your playground settings and locate the registered MCP servers that provide Lenora with tool access.
+
+image::playground-mcp.png[The Gen AI Playground with its registered MCP servers,align=center]
+
+Check the Risk-MCP-Server box and it will prompt you to add it. If this MCP Server required credentials, you could input them here. Now click "Edit tool selection" to see a list of tools. You can enable and disable individual tool calls from this screen. From the normal settings, you can return to this list by clicking the count of tools in the tools column.
+
+image::available-tools.png[Which tools are available for the Risk-MCP-Server,align=center]
+
+The reason why you might enable or disable tools is that models can get confused by tools and choose the wrong ones. This is especially prominent the more tools you add, and the smaller your model.
+
+== Exercise 3: Use MCP Tools in Playground
+
+If you need to validate that MCP is working correctly, Weather MCP servers are a good "Hello World". Once you are convinced everything is working as expected, let's take it to our {assistant_name} system to improve it further.
+
+Send the same mortgage affordability question to both a regular chatbot and an agentic chatbot with MCP tools. The regular chatbot estimates a range with assumptions. The agentic chatbot calls `calculate_dti` and returns an exact figure.
+
+[source,text]
+----
+I make $100K, have $500 monthly debt, and $20K down payment. What is my DTI profile?
+----
+
+Try the query again without the MCP server and see how the answer is more generic.
+
+== Before and After: Regular Chatbot vs Agentic Chatbot
+
+[cols="1,1,1",options="header"]
+|===
+| Dimension | Without MCP (Regular Chatbot) | With MCP (Agentic Chatbot)
+
+| Tool Access
+| None
+| `calculate_dti`
+
+| Answer Precision
+| Estimates with assumptions
+| Exact calculations from real tools
+
+| User Guidance
+| "This is generally considered low DTI"
+| "Based on $100K income... your DTI is Low"
+
+| Governance
+| N/A
+| MCPServerRegistration CRD + mcp-gateway
+|===
+
+== Module Summary
+
+=== What You Accomplished
+
+* Compared regular chatbot responses (estimates with disclaimers) against agentic responses powered by MCP tools (precise, tool-backed calculations)
+* Used MCP tools through the GenAI Playground and observed tool-calling behavior
+
+=== Key Takeaways
+
+* The difference between a regular chatbot and an agentic chatbot is not smarter prompting - it is tool access managed through MCP
+* MCPServerRegistration CRDs provide a Kubernetes-native way to register, manage, and govern tool access for AI agents
+* The MCP gateway acts as a control plane for tool connectivity, providing a single entry point for all registered MCP servers
+* Tool-backed responses eliminate guesswork and deliver precise, actionable answers calculated from real data
+
+=== What's Next
+
+Lenora can now call tools and deliver precise answers. But how do you know those answers are correct? In Module 7, you will use MLflow and EvalHub to trace every agent decision and measure quality with automated evaluation pipelines.
+
+Estimated time: *25 minutes*

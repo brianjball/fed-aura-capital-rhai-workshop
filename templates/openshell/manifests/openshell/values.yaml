@@ -1,0 +1,14 @@
+# OpenShell Helm values for OpenShift (no authentication).
+
+# OpenShift-specific overrides
+pkiInitJob:
+  enabled: false
+
+podSecurityContext:
+  fsGroup: null
+
+securityContext:
+  runAsUser: null
+
+server:
+  disableTls: true

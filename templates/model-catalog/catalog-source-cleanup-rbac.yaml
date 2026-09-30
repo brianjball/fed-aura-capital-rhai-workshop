@@ -1,0 +1,30 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: model-catalog-cleanup-sa
+  namespace: rhoai-model-registries
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: model-catalog-cleanup-role
+  namespace: rhoai-model-registries
+rules:
+  - apiGroups: [""]
+    resources: ["configmaps"]
+    verbs: ["get", "create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: model-catalog-cleanup-rolebinding
+  namespace: rhoai-model-registries
+subjects:
+  - kind: ServiceAccount
+    name: model-catalog-cleanup-sa
+    namespace: rhoai-model-registries
+roleRef:
+  kind: Role
+  name: model-catalog-cleanup-role
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,110 @@
+== Module 1: Model Catalog and Deployment
+:navtitle: Model Catalog and Deployment
+:imagesdir: ../assets/images
+:toc:
+:toc-placement: preamble
+:icons: font
+
+Model choices and compression - smaller size, same intelligence.
+
+Lenora depends on language models for every conversation, reasoning step, and tool decision.
+In the complete platform architecture, those models sit behind the MaaS gateway and provide inference to all five persona-specific agents.
+This module zooms in on that model-serving layer.
+
+.Module 1 focus: self-hosted model inference
+image::fed-aura-platform-architecture-models-focus.svg[The Fed Aura Capital platform architecture with the self-hosted models layer highlighted,align=center]
+
+Fed Aura Capital wants to replace per-token dependence on external model vendors with private, self-hosted inference.
+You will browse the Red Hat OpenShift AI Model Catalog, deploy models on CPU and GPU, scale inference with llm-d, and measure the effect of quantization on latency.
+The endpoint produced here becomes the intelligence layer that later modules govern, connect to tools and knowledge, observe, and secure.
+
+Estimated time: *25 minutes*
+
+== Learning Objectives
+
+By the end of this module you will be able to:
+
+* Navigate the OpenShift AI Model Catalog and identify validated models
+* Deploy an LLM on CPU and understand hardware profile selection
+* Deploy with GPU and llm-d distributed inference
+* Benchmark quantized vs unquantized models and interpret TTFT metrics
+
+== Exercise 1: Explore the Model Catalog
+
+Browse the OpenShift AI Model Catalog, filter by task type, and identify NVIDIA Nemotron models available for deployment.
+
+=== Find the model catalog
+
+.To find the model catalog from OpenShift AI, click on "AI hub", then "Models". From the new page, click the "Catalog" tab.
+image::model-catalog-navigation.png[The model catalog link in OpenShift AI,align=center]
+
+From the model catalog, you can filter multiple different ways. The easiest way is to have "All models" selected and then use the filter. Different collections appear directly below the filter, for example "Red Hat AI - validated models" that come from third parties or "Red Hat AI models" that come directly from Red Hat. You can also search by tags on the left hand side.
+
+In this case, let's do a filter on "Nemotron" and see what we get:
+
+image::nemotron-models.png[Nemotron models available in the model catalog,align=center]
+
+
+== Exercise 2: Deploy a Model on GPU
+
+Walk through the Deploy wizard, select a GPU hardware profile, and configure a vLLM ServingRuntime for inference.
+
+We will start by creating a hardware profile. Navigate to Settings (the last option in the sidenav) > Environment setup > Hardware profiles.
+
+image::hardware-profile-settings.png[Hardware profiles link in OpenShift AI,align=center]
+
+We will create a new hardware profile. Give it the name "NVIDIA GPU", then find the "Resource requests and limits" section. Add a new resource and give it the values shown below:
+
+.You can use the default maximum provided of 2, or you can set it to 1. Our clusters only have 1 GPU on them so you can't actually allocate more anyways.
+image::gpu-resource.png[GPU configuration,align=center]
+
+We also need to increase the memory allowance for the hardware profile. Modify the Memory default and maximum to 6Gib and 8Gib respectively.
+
+Finally, add a toleration at the bottom of the page, setting that nvidia.com/gpu exists with an effect of NoSchedule. The GPU node has been tainted so that you cannot schedule any workloads to it without the specific toleration. The purpose of this is to prevent us from filling up the node with CPU workloads and being unable to use the GPU as a result.
+
+image::hardware-profile-toleration.png[GPU toleration configuration,align=center]
+
+Click create hardware profile when you are done.
+
+=== Deploy GPT OSS 20B
+
+Navigate back to the model catalog and find the catalog item "gpt-oss-20b-essential"
+
+image::gpt-oss-20b-essential.png[GPU configuration,align=center]
+
+Click into the item and familiarize yourself with the page. Note the description of the model, the model location, and performance insights based on tests Red Hat has done. When you are ready, click "Deploy model". This will take you to a wizard.
+
+1. Preconfigure deployment
+    - Select the "models-as-a-service" project from the dropdown.
+2. Model details
+    - Verify that this is a Generated AI model.
+3. Model deployment
+    - Set the model deployment name to "gpt-oss-20b"
+    - Select "LLM inference service with llm-d" as the Deployment method. This workshop won't be able to show the benefits of llm-d over base vLLM, but know that you can easily measure the differences even with a small handful of replicas. Notice that OpenShift AI makes it just as easy to deploy llm-d in the base configuration!
+    - Select the NVIDIA GPU hardware profile we just created.
+    - Deploy a single replica.
+4. Advanced settings
+    - Set the first several options as in the image below. In particular, make sure that the MaaS box is checked as that will be needed for the remainder of the workshop.
+    - Check the "Add custom runtime arguments" box and add the following options to enable tool calling for our model: --enable-auto-tool-choice --tool-call-parser=openai
+
+image::gpt-oss-deployment-options.png[Advanced settings in the GPT OSS deployment,align=center]
+
+When you are ready, click deploy. The model will take several minutes to download and deploy, so please be patient!
+
+== Module Summary
+
+=== What You Accomplished
+
+* Browsed the OpenShift AI Model Catalog and located validated Nemotron models
+* Created a hardware profile that enables use of an NVIDIA GPU
+* Deployed an LLM using your GPU hardware profile
+* Enabled llm-d distributed inference with configurable replicas
+
+=== Key Takeaways
+
+* Self-hosted inference eliminates per-token costs and keeps data inside the cluster
+* llm-d provides scalable, distributed inference without manual load-balancing
+
+=== What's Next
+
+In the next module you configure the deployed model as a Models as a Service (MaaS) endpoint, enabling governed access for every team in the organization.

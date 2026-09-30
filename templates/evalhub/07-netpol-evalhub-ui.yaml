@@ -1,0 +1,26 @@
+# Workaround: the eval-hub-ui BFF pod cannot reach the evalhub API service
+# on port 8443 due to a missing egress rule in the operator-managed
+# NetworkPolicy (eval-hub-allow-ports). This should be fixed upstream
+# in the TrustyAI/Dashboard operator in a future RHOAI release.
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: eval-hub-ui-to-evalhub
+  namespace: redhat-ods-applications
+  labels:
+    app.kubernetes.io/component: eval-hub
+spec:
+  podSelector:
+    matchLabels:
+      deployment: eval-hub-ui
+  policyTypes:
+    - Egress
+  egress:
+    - ports:
+        - port: 8443
+          protocol: TCP
+      to:
+        - podSelector:
+            matchLabels:
+              app: eval-hub
+              component: api

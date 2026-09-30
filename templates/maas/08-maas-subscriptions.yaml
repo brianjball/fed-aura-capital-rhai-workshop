@@ -1,0 +1,17 @@
+---
+apiVersion: maas.opendatahub.io/v1alpha1
+kind: MaaSSubscription
+metadata:
+  name: gpt-oss-120b-free
+  namespace: models-as-a-service
+spec:
+  modelRefs:
+    - name: gpt-oss-120b
+      namespace: external-models
+      tokenRateLimits:
+        - limit: 10000
+          window: 1h
+  owner:
+    groups:
+      - name: system:authenticated
+  priority: 10

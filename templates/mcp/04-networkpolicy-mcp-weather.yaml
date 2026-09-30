@@ -1,0 +1,23 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: gen-ai-allow-mcp-weather
+  namespace: redhat-ods-applications
+spec:
+  podSelector:
+    matchLabels:
+      deployment: gen-ai-ui
+  egress:
+    - ports:
+        - protocol: TCP
+          port: 3001
+      to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mcp-servers
+          podSelector:
+            matchLabels:
+              app: mcp-weather
+  policyTypes:
+    - Egress

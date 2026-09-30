@@ -1,0 +1,44 @@
+= Workshop Overview
+:imagesdir: ../assets/images
+:navtitle: Workshop Overview
+:toc:
+:toc-placement: preamble
+:icons: font
+
+== Learning objectives
+
+By the end of this section, you will be able to:
+
+* Describe what {company_name} is and why it rebuilt its AI platform
+* Explain the CTO's four-phase platform rebuild and the problems each phase solved
+* Identify the persona-based agent architecture that powers {assistant_name}
+* Navigate the workshop's modular structure and understand how modules connect
+
+== What is this workshop about?
+
+Traditional AI demos show a model answering questions. Production AI requires a complete platform: model serving, governed access, domain grounding, tool integration, observability, evaluation, and security. Each capability solves a real business problem, and they must work together.
+
+This workshop takes you through the full Red Hat AI product portfolio by putting you inside a real production deployment. You've just joined *Fed Aura Capital* as an engineer — the AI platform is already running, and your job is to understand every layer of it. Each module introduces a capability, shows you what Fed Aura Capital's setup looks like in practice, and gives you hands-on time with the same tools. By the end, you'll know why the platform looks the way it does and what each component contributes.
+
+image::agentic-app2.png[{company_name} landing page with {assistant_name} assistant responding to a mortgage product inquiry,link=self,window=blank,width=700]
+
+== Meet Fed Aura Capital
+
+Fed Aura Capital is one of the largest fictitious banks in the country. Over the last year, the company deployed an AI-powered customer assistant named *Lenora* to support borrowers, loan officers, underwriters, and executives throughout the mortgage lifecycle.
+
+Lenora started as a prototype chatbot connected to an external model. Today, she is a production-grade AI system running entirely on Red Hat OpenShift AI with self-hosted models, domain-grounded knowledge, tool-calling agents, full observability, and defense-in-depth security.
+
+== Your first day: the CTO briefing
+
+As part of your onboarding, your team shares a link to a recorded all-hands from six months ago — the kickoff where your CTO announced the platform rebuild. You hit play.
+
+[quote]
+____
+When we started, Lenora was a chatbot connected to an external API. Every borrower question left our network, costs scaled with every conversation, and we had no control over what the model knew or how it behaved. Regulators started asking questions. Our CISO blocked production deployment. We had to rethink the whole thing.
+
+We rebuilt the platform in four phases. First, we took control of our own inference — deployed our own models, stopped paying per-token, and exposed them as a managed service. Second, we made the AI actually useful — gave it our policies, our products, our data. Third, we connected it to real tools and made every decision traceable. Fourth, we locked it down: guardrails, adversarial testing, sandboxed agents, full audit trail.
+
+Each of these phases solved a real problem.
+____
+
+*Your job*: explore each of those four phases throughout this workshop and understand the platform well enough to support it.

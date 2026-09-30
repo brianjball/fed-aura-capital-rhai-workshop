@@ -1,0 +1,175 @@
+= Fed Aura Capital & Lenora
+:imagesdir: ../assets/images
+:navtitle: Fed Aura Capital
+:toc:
+:toc-placement: preamble
+:icons: font
+
+== The platform you're joining
+
+Fed Aura Capital's AI platform didn't arrive fully formed. It was built in four transformation waves, each solving a specific production problem that the prototype couldn't handle. Understanding those waves is the fastest way to understand why the platform looks the way it does today.
+
+== The four transformation waves
+
+=== Wave 1 — Fast, Flexible, and Efficient Inferencing
+
+_"From token consumer to token producer"_
+
+Fed Aura Capital used to pay per-token to an external LLM vendor. Every API call left the network, costs were unpredictable, and there was no control over which model version served a request.
+
+The platform now runs self-hosted models with vLLM, a distributed inference layer with llm-d, and exposes them through a managed API gateway via Models as a Service (MaaS).
+
+[cols="1,1",options="header"]
+|===
+| Before | After
+| Per-token billing to external vendors | Fixed infrastructure cost, self-hosted models
+| Data leaves the network on every call | Data stays in-cluster, full sovereignty
+| Every team deploys its own model copy | Single deployment shared via MaaS gateway
+| No usage metering or access control | Subscription tiers with API key management
+|===
+
+*Modules*: Model Catalog & Deployment, Models as a Service
+
+=== Wave 2 — Connecting Data to Models and Agents
+
+_"From generic to useful AI"_
+
+A deployed model is still generic. Lenora could not quote Fed Aura Capital's rates, did not know internal policies, and gave textbook answers with disclaimers.
+
+The platform now shapes Lenora into a domain expert through configured system prompts stored in the Prompt Registry, and grounds her responses in the bank's private documents via RAG. OGX ties the API surface together.
+
+[cols="1,1",options="header"]
+|===
+| Before | After
+| Generic system prompt ("You are a helpful AI assistant") | Domain-specific persona configured for mortgage lending
+| Hallucinated policy answers | RAG-grounded responses citing internal documents
+| No way to update model knowledge without retraining | Upload new documents; knowledge updates in minutes
+|===
+
+*Modules*: GenAI Playground, RAG, OGX
+
+=== Wave 3 — Accelerate Agentic AI Innovation
+
+_"From useful to productive AI"_
+
+Lenora could answer domain-specific questions, but could not take action. When a borrower asked "How much house can I afford?", she estimated a range with assumptions. An agentic Lenora calls the affordability calculator and returns a precise figure with a DTI breakdown.
+
+The platform connects agents to real tools through the MCP Ecosystem, captures every decision path in MLflow traces, and continuously measures quality with automated evaluation pipelines.
+
+[cols="1,1",options="header"]
+|===
+| Before | After
+| Regular chatbot: estimates with disclaimers | Agentic chatbot: precise results from real tool calls
+| Black-box agent decisions | Full MLflow traces showing every tool call and LLM invocation
+| Manual quality spot-checking | Automated evaluation pipelines with EvalHub
+|===
+
+*Modules*: MCP Ecosystem, Evaluations & Tracing
+
+=== Wave 4 — Securing AI from Sandbox to Production
+
+_"From prototype to production-grade"_
+
+Agents that take real actions in a regulated industry must be secured before production. The CISO blocked deployment until a proper security model was in place. Regulators required evidence that the AI cannot be manipulated and maintains a full audit trail.
+
+The platform now deploys NeMo Guardrails at the inference boundary, uses Garak for adversarial testing, and runs agents inside OpenShell sandboxes with deny-by-default policies and full OCSF audit logging.
+
+[cols="1,1",options="header"]
+|===
+| Before | After
+| No input/output filtering | NeMo Guardrails at the inference boundary
+| Untested adversarial robustness | Garak adversarial test results available for review
+| Agents deployed as ad-hoc containers | OpenShell with deny-by-default policies and OCSF audit logging
+| No security observability | Structured audit events, SIEM-ready
+|===
+
+*Modules*: AI Safety & Secure Agent Onboarding
+
+== The personas
+
+Throughout the workshop, you'll interact with the platform as different Fed Aura Capital employees. Each persona has different access levels and sees different behavior from Lenora — this is intentional, and understanding why is part of the lab.
+
+[cols="1,1,2,2",options="header"]
+|===
+| Persona | Name | Role | What you'll observe
+
+| Borrower
+| Sarah Mitchell
+| Customer applying for a mortgage
+| Asks about rates, gets policy-grounded answers, sees RAG in action
+
+| Loan Officer
+| James Torres
+| Reviews borrower applications, manages pipeline
+| Sends prompts that trigger tool calls, checks MLflow traces
+
+| CEO
+| David Park
+| Executive oversight and analytics
+| Queries produce analytics responses grounded in internal data
+
+| Engineer
+| You
+| Supporting the AI platform
+| Observes all of the above, checks traces, explores guardrail configs
+|===
+
+== Platform architecture
+
+[#fed-aura-platform-architecture]
+.Fed Aura Capital AI platform architecture
+image::fed-aura-platform-architecture.svg[Diagram showing Lenora connected to persona agents, self-hosted models, MCP tools, a RAG vector database, MLflow observability, and platform security layers,align=center]
+
+The platform is built around a set of cooperating components. At the center is Lenora — a set of persona-specific agents orchestrated with LangGraph and powered by self-hosted models served through vLLM. Each agent has access to domain knowledge via RAG, can call real tools via MCP, and is observable through MLflow tracing. All inference goes through the MaaS gateway, which enforces access control and usage metering. NeMo Guardrails filter inputs and outputs at the boundary. OpenShell sandboxes agent execution with deny-by-default policies.
+
+**It is not just the LLM.** A production AI system involves many components working together. The LLM is one part of a larger pipeline that includes data retrieval, tool execution, identity management, and observability. The architecture layers map directly to the workshop modules:
+
+[cols="1,2,2",options="header"]
+|===
+|Architecture Layer |Components |Workshop Modules
+
+|Inference
+|vLLM, llm-d, MaaS
+|Module 1 (Model Catalog), Module 2 (MaaS)
+
+|Data
+|pgvector, RAG, Prompt Registry
+|Module 5 (System Prompts, RAG & AutoRAG)
+
+|Agentic
+|LangGraph, MCP, MLflow
+|Module 4 (AutoML), Module 7 (MCP), Module 8 (Evaluations)
+
+|Security
+|NeMo Guardrails, Garak, OpenShell
+|Module 9 (AI Safety)
+|===
+
+[%collapsible]
+.Architecture deep-dives: focused diagrams per layer (click to expand)
+====
+Each module zooms in on one layer of this architecture. You can refer back to these diagrams at any time.
+
+[cols="1,1,2",options="header"]
+|===
+|Focus Area |Diagram |Relevant Modules
+
+|Self-hosted models
+|image:fed-aura-platform-architecture-models-focus.svg[Models focus,width=200,link=self,window=blank]
+|Module 1 (Model Catalog), Module 2 (MaaS)
+
+|MaaS Gateway
+|image:fed-aura-platform-architecture-maas-focus.svg[MaaS focus,width=200,link=self,window=blank]
+|Module 2 (Models as a Service)
+
+|Prompt Registry
+|image:fed-aura-platform-architecture-prompt-registry-focus.svg[Prompt Registry focus,width=200,link=self,window=blank]
+|Module 5 (System Prompts)
+
+|RAG Pipeline
+|image:fed-aura-platform-architecture-rag-focus.svg[RAG focus,width=200,link=self,window=blank]
+|Module 5 (RAG & AutoRAG)
+|===
+====
+
+IMPORTANT: You do not need to understand every component now. Each module focuses on one layer. This exercise gives you the map so you know where each module fits in the bigger picture.

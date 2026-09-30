@@ -1,0 +1,14 @@
+---
+# Prerequisites:
+#   - Replace <NAMESPACE> in ogxserver.yaml and genai-stack-connection.yaml
+#   - Replace REPLACE_ME values with real API keys/passwords
+#   - After PGVector pod is running: oc exec deploy/genai-pgvector -- psql -U vectoruser -d vectordb -c "CREATE EXTENSION IF NOT EXISTS vector"
+#
+# Deploy order matters - pgvector must be ready before ogxserver starts
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-pgvector.yaml
+  - 01-llama-stack-config.yaml
+  - 02-genai-stack-connection.yaml
+  - 03-ogxserver.yaml

@@ -1,0 +1,24 @@
+.Welcome and Introduction
+* xref:index.adoc[Welcome]
+* xref:01-overview.adoc[Workshop Overview]
+* xref:02-fed-aura.adoc[Fed Aura Capital]
+* xref:03-details.adoc[Workshop Details]
+
+.Fast, Flexible, and Efficient Inferencing
+* xref:03-module-01-model-deployment.adoc[Module 1: Model Catalog & Deployment]
+* xref:04-module-02-maas.adoc[Module 2: Models as a Service]
+
+.Connecting Data to Models and Agents
+* xref:05-module-03-automl.adoc[Module 3: Predictive AI with AutoML]
+* xref:06-module-04-system-prompts.adoc[Module 4: System Prompts]
+* xref:07-module-05-rag.adoc[Module 5: RAG & Knowledge Grounding]
+
+.Accelerate Agentic AI Innovation
+* xref:08-module-06-mcp-ecosystem.adoc[Module 6: MCP Ecosystem]
+
+.Securing AI from Sandbox to Production
+* xref:09-module-07-putting-it-together.adoc[Module 7: Running the Production Application]
+* xref:10-module-08-tracing.adoc[Module 8: Tracing With MLflow]
+
+.Conclusion
+* xref:12-conclusion.adoc[Conclusion]

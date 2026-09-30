@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: minio-service
+  namespace: wksp-user1
+spec:
+  type: ClusterIP
+  selector:
+    app: minio
+  ports:
+    - name: api
+      protocol: TCP
+      port: 9000
+      targetPort: 9000
+    - name: ui
+      protocol: TCP
+      port: 9090
+      targetPort: 9090

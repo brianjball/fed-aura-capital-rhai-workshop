@@ -1,0 +1,131 @@
+= Workshop details
+:imagesdir: ../assets/images
+:navtitle: Workshop Details
+:toc:
+:toc-placement: preamble
+:icons: font
+
+== Navigation
+
+From the OpenShift or OpenShift AI web consoles, you can always access the other one. To do so, find the 3x3 grid of squares in the upper right hand corner of the UI and click it as in the image:
+
+image::openshift-ai-location.png[The link to OpenShift AI,align=center]
+
+The corresponding button to get from OpenShift AI to OpenShift is called "OpenShift Console".
+
+== Software versions
+
+[cols="1,1",options="header"]
+|===
+| Component | Version
+| Red Hat OpenShift Container Platform | {ocp_version}
+| Red Hat OpenShift AI | {rhoai_version}
+| MLflow | {mlflow_version}
+| vLLM | 0.18.0
+| LangGraph / LangChain | Latest
+| Grafana | Latest
+|===
+
+== Glossary
+
+.Key terms used throughout this workshop
+[%collapsible]
+====
+[cols="1,3",options="header"]
+|===
+| Term | Definition
+
+| Agent Sandbox
+| A secure execution environment for AI agents managed by the Agent Sandbox Controller. Provides pod scheduling with optional warmpool support for lower cold-start times. Combined with OpenShell's application-level isolation and optionally Kata Containers for hardware-level isolation, it forms the production runtime for agents on Red Hat OpenShift AI.
+
+| AI Agent
+| A software system that uses an LLM to reason about tasks, decide which tools to call, and take actions autonomously. Unlike a simple chatbot, an agent can chain multiple tool calls and LLM invocations to accomplish complex goals.
+
+| AutoML
+| Automated Machine Learning. A capability in RHOAI that lets you train and compare ML models through a guided wizard without writing model training code. You upload data, select a prediction type, and AutoML builds and ranks multiple models.
+
+| RAG
+| Retrieval-Augmented Generation. A feature in the RHOAI GenAI Playground that enables RAG with a simple toggle and file upload, without requiring manual vector database setup.
+
+| Chatterbox
+| A company acquired by Red Hat whose advanced risk analysis technology has been integrated into Garak, EvalHub, and SDG Hub. Enables a full adversarial testing flow: define a policy, generate synthetic attack prompts via SDG Hub, attack the model via Garak, and produce a report via EvalHub showing where the model breaks.
+
+| EvalHub
+| A centralized evaluation management capability in RHOAI that coordinates evaluation pipelines, stores results, and enables comparison across model versions and prompt iterations.
+
+| Garak
+| An open-source LLM vulnerability scanner that probes models for weaknesses including prompt injection, jailbreak attempts, data leakage, and bias. Used for pre-deployment adversarial testing.
+
+| Guardrails Orchestrator
+| A GA component in RHOAI that coordinates guardrail evaluation at the inference boundary. Works with NeMo Guardrails detectors (deployed as sidecars for lightweight features or via Hugging Face detector server for larger models) to provide input and output filtering.
+
+| GenAI Playground
+| An interactive environment in RHOAI for experimenting with deployed models. Supports system prompt configuration, temperature tuning, RAG knowledge attachment, and MCP tool connection without writing code.
+
+| LangGraph
+| An open-source framework for building stateful, multi-agent applications with LLMs. Fed Aura Capital uses LangGraph to orchestrate its five persona-based agents.
+
+| llm-d
+| A distributed inference engine that scales LLM serving across multiple replicas with features like prefix caching and smart routing. Available as a deployment resource option in RHOAI.
+
+| MaaS (Model as a Service)
+| A capability in RHOAI that publishes a deployed model through a managed gateway API with subscription tiers, usage metering, and API key authentication. Multiple consumers share a single model deployment.
+
+| MCP (Model Context Protocol)
+| An open standard for connecting AI agents to external tools and data sources. MCP servers expose tool capabilities that agents can discover and call at runtime.
+
+| MCPServerRegistration
+| A Kubernetes Custom Resource Definition (CRD) in RHOAI that registers MCP servers as first-class cluster resources, making them discoverable and manageable alongside other AI assets.
+
+| MLflow
+| An open-source platform for managing the ML lifecycle. In this workshop, MLflow provides tracing (recording agent decision paths), evaluation (measuring agent quality), and prompt registry (version-controlling system prompts).
+
+| Kata Containers
+| OpenShift sandboxed containers that provide hardware-level isolation by running each pod in a lightweight VM with its own kernel. Complementary to OpenShell's application-level sandboxing in a defense-in-depth model: OpenShell constrains what the agent process can do within its container, Kata ensures that even if the agent escapes its container, it is still inside a VM boundary.
+
+| NemoGuardrails
+| NVIDIA's open-source toolkit for adding programmable guardrails to LLM applications. Provides input shields (filtering harmful inputs) and output shields (filtering harmful outputs) at the inference boundary.
+
+| OCSF (Open Cybersecurity Schema Framework)
+| A standardized schema for security telemetry. OpenShell uses OCSF v1.7.0 for structured audit events, making them compatible with SIEM systems.
+
+| OGX (Open GenAI Stack)
+| An agentic API server (previously Llama Stack, renamed to ogx) that implements the OpenAI Responses API and related agentic APIs. Provides a conformant, self-hosted alternative to calling OpenAI directly. Any framework that speaks the OpenAI standard (LangChain, LangGraph, CrewAI) can use ogx as a drop-in backend without code changes. Also provides RAG via OpenAI-compatible vector store APIs across 14+ providers. GA targeted for RHOAI 3.5.
+
+| Policy Advisor
+| An audit2allow-style workflow in OpenShell for iterative policy discovery. When an agent's action is blocked, the structured deny response tells the agent what was rejected and why. The agent can request access, a human reviews and approves in the CLI/TUI, and approved rules are hot-loaded into the running sandbox. Disabled by default to prevent over-permissioning.
+
+| Responses API
+| The strategic API for agentic workloads, based on OpenAI's OpenResponses specification. Provides state management, connectors, file search, and tool calling in a standardized format. ogx provides a fully conformant implementation. Any framework using the OpenAI standard can use ogx as a drop-in, governed, on-premise backend.
+
+| OpenShell
+| An open-source agent runtime developed by NVIDIA and integrated into Red Hat AI. Provides agent sandboxing (seccomp, Landlock, network namespaces), deny-by-default security policies, credential injection, OCSF audit logging, and SPIFFE/SPIRE identity. Three components: CLI/SDK (developer interface), Gateway (control plane), Supervisor (PID 1 in every sandbox).
+
+| RAG (Retrieval-Augmented Generation)
+| A technique that enhances LLM responses by retrieving relevant information from external documents before generating an answer. Instead of relying solely on training data, the model's response is grounded in current, organization-specific knowledge.
+
+| SPIFFE/SPIRE
+| SPIFFE (Secure Production Identity Framework for Everyone) is a standard for service identity. SPIRE is the reference implementation. Together they provide cryptographic workload identity without hardcoded keys - each agent gets a short-lived, scoped identity token.
+
+| Trace
+| A record of an entire request through a multi-agent system, showing every step: which agents were invoked, which tools were called, what inputs and outputs were exchanged, and how long each step took.
+
+| Span
+| A single unit of work within a trace. For example, one LLM invocation, one tool call, or one agent routing decision. Spans are nested to show the parent-child relationship of operations.
+
+| vLLM
+| An open-source, high-throughput LLM serving engine. RHOAI includes vLLM-based serving runtimes for NVIDIA GPU, Intel Gaudi, and IBM Spyre accelerators.
+|===
+====
+
+== Authors
+
+[cols="1,1",options="header"]
+|===
+| Role | Name
+| Primary Author | Red Hat AI Business Unit, Brian Ball
+| Workshop Lead | CAI Team, Brian Ball
+| Contributors | CAI Team, Brian Ball
+|===
+
+Last Updated: September 2026

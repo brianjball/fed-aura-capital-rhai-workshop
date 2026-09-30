@@ -1,0 +1,11 @@
+---
+# Prerequisites:
+#   - cert-manager configured with ingress certificate
+#   - Secret 'cert-manager-ingress-cert' in openshift-ingress namespace
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-openshift-ai-inference-gateway.yaml
+  - 01-enable-gateway-discovery.yaml
+  - 02-vllm-cpu-x86-llminferenceserviceconfig.yaml
+  - 03-tinyllama-llminferenceservice.yaml

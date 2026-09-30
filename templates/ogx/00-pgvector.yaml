@@ -1,0 +1,82 @@
+# PGVector - PostgreSQL with vector extension for OGX vector_io provider
+# Deploy order: this file FIRST, then 01-llama-stack-config.yaml, then ogxserver.yaml
+#
+# After the pod is running, enable the vector extension:
+#   oc exec deploy/genai-pgvector -- psql -U vectoruser -d vectordb -c "CREATE EXTENSION IF NOT EXISTS vector"
+#
+# If CREATE EXTENSION fails with "permission denied", the image may need POSTGRESQL_ADMIN_PASSWORD
+# set so it creates the superuser. Then run:
+#   oc exec deploy/genai-pgvector -- psql -U postgres -d vectordb -c "CREATE EXTENSION IF NOT EXISTS vector"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: genai-pgvector-credentials
+type: Opaque
+stringData:
+  password: REPLACE_ME
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: genai-pgvector
+  labels:
+    app: genai-pgvector
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: genai-pgvector
+  template:
+    metadata:
+      labels:
+        app: genai-pgvector
+    spec:
+      containers:
+      - name: postgresql
+        image: registry.redhat.io/rhel9/postgresql-16
+        ports:
+        - containerPort: 5432
+          protocol: TCP
+        env:
+        - name: POSTGRESQL_DATABASE
+          value: vectordb
+        - name: POSTGRESQL_USER
+          value: vectoruser
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: genai-pgvector-credentials
+              key: password
+        - name: POSTGRESQL_ADMIN_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: genai-pgvector-credentials
+              key: password
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: "1"
+            memory: 1Gi
+        volumeMounts:
+        - name: pgdata
+          mountPath: /var/lib/pgsql/data
+      volumes:
+      - name: pgdata
+        emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: genai-pgvector
+  labels:
+    app: genai-pgvector
+spec:
+  selector:
+    app: genai-pgvector
+  ports:
+  - port: 5432
+    targetPort: 5432
+    protocol: TCP

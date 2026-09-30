@@ -1,0 +1,165 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: llama-stack-config
+  labels:
+    ogx.io/server: lsd-genai-playground
+    ogx.io/watch: "true"
+    opendatahub.io/dashboard: "true"
+data:
+  config.yaml: |
+    version: "2"
+    distro_name: rh
+    apis:
+    - responses
+    - file_processors
+    - files
+    - inference
+    - tool_runtime
+    - vector_io
+    providers:
+      inference:
+      - provider_id: sentence-transformers
+        provider_type: inline::sentence-transformers
+        config:
+          trust_remote_code: false
+      - provider_id: maas-vllm-inference-1
+        provider_type: remote::vllm
+        config:
+          api_token: ${env.VLLM_API_TOKEN_1:=fake}
+          base_url: https://maas-rhdp.apps.maas.redhatworkshops.io/v1
+          max_tokens: ${env.VLLM_MAX_TOKENS_1:=4096}
+          tls_verify: ${env.VLLM_TLS_VERIFY:=true}
+      - provider_id: vllm-inference-2
+        provider_type: remote::vllm
+        config:
+          api_token: ${env.VLLM_API_TOKEN_2:=fake}
+          base_url: https://gpt-oss-20b-kserve-workload-svc.llm.svc.cluster.local:8000/v1
+          max_tokens: ${env.VLLM_MAX_TOKENS_2:=4096}
+          tls_verify: false
+      - provider_id: vllm-inference-tinyllama
+        provider_type: remote::vllm
+        config:
+          api_token: ${env.VLLM_API_TOKEN_TINYLLAMA:=fake}
+          base_url: https://tinyllama-kserve-workload-svc.llm.svc.cluster.local:8000/v1
+          max_tokens: ${env.VLLM_MAX_TOKENS_TINYLLAMA:=2048}
+          tls_verify: false
+      vector_io:
+      - provider_id: pgvector
+        provider_type: remote::pgvector
+        config:
+          db: ${env.PGVECTOR_DB:=vectordb}
+          distance_metric: COSINE
+          host: ${env.PGVECTOR_HOST}
+          password: ${env.PGVECTOR_PASSWORD:=}
+          persistence:
+            backend: kv_default
+            namespace: vector_io::pgvector
+          port: ${env.PGVECTOR_PORT:=5432}
+          user: ${env.PGVECTOR_USER:=vectoruser}
+      responses:
+      - provider_id: builtin
+        provider_type: inline::builtin
+        config:
+          persistence:
+            responses:
+              backend: sql_default
+              max_write_queue_size: 10000
+              num_writers: 4
+              table_name: responses
+      file_processors:
+      - provider_id: pypdf
+        provider_type: inline::pypdf
+        config: {}
+      files:
+      - provider_id: localfs-files
+        provider_type: inline::localfs
+        config:
+          metadata_store:
+            backend: sql_default
+            table_name: files_metadata
+          storage_dir: /opt/app-root/src/.llama/distributions/rh/files
+      tool_runtime:
+      - provider_id: file-search
+        provider_type: inline::file-search
+        config: {}
+      - provider_id: model-context-protocol
+        provider_type: remote::model-context-protocol
+        config: {}
+    metadata_store:
+      type: sqlite
+      db_path: /opt/app-root/src/.llama/distributions/rh/inference_store.db
+    storage:
+      backends:
+        kv_default:
+          db_path: /opt/app-root/src/.llama/distributions/rh/kvstore.db
+          type: kv_sqlite
+        sql_default:
+          db_path: /opt/app-root/src/.llama/distributions/rh/sql_store.db
+          type: sql_sqlite
+      stores:
+        connectors:
+          backend: sql_default
+          table_name: connectors
+        conversations:
+          backend: sql_default
+          table_name: openai_conversations
+        inference:
+          backend: sql_default
+          max_write_queue_size: 10000
+          num_writers: 4
+          table_name: inference_store
+        metadata:
+          backend: kv_default
+          namespace: registry
+        prompts:
+          backend: sql_default
+          table_name: prompts
+    vector_stores:
+      default_provider_id: pgvector
+      default_embedding_model:
+        provider_id: sentence-transformers
+        model_id: ibm-granite/granite-embedding-125m-english
+      annotation_prompt_params:
+        enable_annotations: true
+      file_ingestion_params:
+        default_chunk_overlap_tokens: 128
+        default_chunk_size_tokens: 512
+      chunk_retrieval_params:
+        chunk_multiplier: 5
+        default_reranker_strategy: rrf
+        default_search_mode: vector
+        max_tokens_in_context: 4000
+        rrf_impact_factor: 60
+        weighted_search_alpha: 0.5
+      file_batch_params:
+        cleanup_interval_seconds: 86400
+        file_batch_chunk_size: 10
+        max_concurrent_files_per_batch: 3
+    registered_resources:
+      models:
+      - provider_id: sentence-transformers
+        model_id: sentence-transformers/ibm-granite/granite-embedding-125m-english
+        provider_model_id: ibm-granite/granite-embedding-125m-english
+        model_type: embedding
+        metadata:
+          embedding_dimension: 768
+      - provider_id: maas-vllm-inference-1
+        model_id: gpt-oss-120b
+        model_type: llm
+        metadata:
+          display_name: gpt-oss-120b
+      - provider_id: vllm-inference-2
+        model_id: gpt-oss-20b
+        model_type: llm
+        metadata:
+          display_name: OpenAI gpt-oss-20b
+      - provider_id: vllm-inference-tinyllama
+        model_id: tinyllama
+        model_type: llm
+        metadata:
+          display_name: TinyLlama-1.1B-Chat
+      vector_stores: []
+    external_providers_dir: /opt/app-root/.llama/providers.d
+    server:
+      port: 8321

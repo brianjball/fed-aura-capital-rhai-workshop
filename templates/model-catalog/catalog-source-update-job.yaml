@@ -1,0 +1,104 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: model-catalog-sources-update
+  namespace: rhoai-model-registries
+spec:
+  ttlSecondsAfterFinished: 60
+  template:
+    spec:
+      restartPolicy: Never
+      serviceAccountName: model-catalog-cleanup-sa
+      containers:
+        - name: update
+          image: registry.redhat.io/openshift4/ose-cli:latest
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Applying model-catalog-sources ConfigMap..."
+              oc apply -f - <<'EOF'
+              apiVersion: v1
+              kind: ConfigMap
+              metadata:
+                name: model-catalog-sources
+                namespace: rhoai-model-registries
+                labels:
+                  app: model-catalog
+                  app.kubernetes.io/component: model-catalog
+                  app.kubernetes.io/created-by: model-registry-operator
+                  app.kubernetes.io/instance: model-catalog
+                  app.kubernetes.io/managed-by: model-registry-operator
+                  app.kubernetes.io/name: model-catalog
+                  app.kubernetes.io/part-of: model-catalog
+                  component: model-catalog
+              data:
+                sources.yaml: |
+                  catalogs:
+                    - name: FedAura Capital CPU Models
+                      id: fedaura_cpu_models
+                      type: yaml
+                      properties:
+                        yamlCatalogPath: cpu-models-catalog.yaml
+                cpu-models-catalog.yaml: |
+                  source: Hugging Face
+                  models:
+                  - name: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+                    description: TinyLlama is a compact 1.1B parameter language model pretrained on 3 trillion tokens, fine-tuned for chat applications and optimized for CPU inference.
+                    readme: |
+                      # TinyLlama-1.1B-Chat-v1.0
+
+                      Compact 1.1B parameter language model pretrained on 3 trillion tokens, fine-tuned for chat.
+
+                      ## Key Features
+                      - 1.1B parameters - suitable for CPU-only deployment
+                      - Llama 2 architecture and tokenizer
+                      - Context length: 2048 tokens
+                      - Fine-tuned on OpenAssistant and UltraChat datasets
+
+                      ## Resource Requirements (CPU)
+                      - Memory: 8Gi recommended
+                      - CPU: 4-8 cores
+                      - KV cache space: 4 GiB
+
+                      ## License
+                      Apache 2.0
+                    provider: TinyLlama Team
+                    logo: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIiBmaWxsPSJub25lIj48cG9seWdvbiBwb2ludHM9IjE2LDMgMjksMTQgMywxNCIgZmlsbD0iI0NDMDAwMCIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMjAiIGhlaWdodD0iMTUiIGZpbGw9IiNDQzAwMDAiIG9wYWNpdHk9IjAuODUiLz48cmVjdCB4PSIxMyIgeT0iMjEiIHdpZHRoPSI2IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45Ii8+PHJlY3QgeD0iOCIgeT0iMTciIHdpZHRoPSI0IiBoZWlnaHQ9IjMiIHJ4PSIwLjUiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz48cmVjdCB4PSIyMCIgeT0iMTciIHdpZHRoPSI0IiBoZWlnaHQ9IjMiIHJ4PSIwLjUiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz48L3N2Zz4K
+                    license: apache-2.0
+                    licenseLink: https://www.apache.org/licenses/LICENSE-2.0.txt
+                    libraryName: transformers
+                    artifacts:
+                      - uri: oci://quay.io/rh-aiservices-bu/tinyllama:1.0
+
+                  - name: Qwen/Qwen3-0.6B
+                    description: Qwen3-0.6B is a compact 0.6B parameter language model from the Qwen3 family, optimized for lightweight deployment and CPU inference with strong multilingual support.
+                    readme: |
+                      # Qwen3-0.6B
+
+                      Compact 0.6B parameter model from the Qwen3 family by Alibaba Cloud.
+
+                      ## Key Features
+                      - 0.6B parameters - lightweight enough for CPU deployment
+                      - Strong multilingual support (100+ languages)
+                      - Supports both thinking and non-thinking modes
+                      - Tool calling and agentic capabilities
+
+                      ## Resource Requirements (CPU)
+                      - Memory: 8-16Gi recommended
+                      - CPU: 4-8 cores
+                      - Max model length: 10000 tokens (adjustable)
+                      - KV cache space: 4-16 GiB depending on context needs
+
+                      ## License
+                      Apache 2.0
+                    provider: Alibaba Cloud
+                    logo: data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMiIgaGVpZ2h0PSIzMiIgdmlld0JveD0iMCAwIDMyIDMyIiBmaWxsPSJub25lIj48cG9seWdvbiBwb2ludHM9IjE2LDMgMjksMTQgMywxNCIgZmlsbD0iI0NDMDAwMCIvPjxyZWN0IHg9IjYiIHk9IjE0IiB3aWR0aD0iMjAiIGhlaWdodD0iMTUiIGZpbGw9IiNDQzAwMDAiIG9wYWNpdHk9IjAuODUiLz48cmVjdCB4PSIxMyIgeT0iMjEiIHdpZHRoPSI2IiBoZWlnaHQ9IjgiIHJ4PSIxIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC45Ii8+PHJlY3QgeD0iOCIgeT0iMTciIHdpZHRoPSI0IiBoZWlnaHQ9IjMiIHJ4PSIwLjUiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz48cmVjdCB4PSIyMCIgeT0iMTciIHdpZHRoPSI0IiBoZWlnaHQ9IjMiIHJ4PSIwLjUiIGZpbGw9IndoaXRlIiBvcGFjaXR5PSIwLjkiLz48L3N2Zz4K
+                    license: apache-2.0
+                    licenseLink: https://www.apache.org/licenses/LICENSE-2.0.txt
+                    libraryName: transformers
+                    artifacts:
+                      - uri: oci://quay.io/rh-aiservices-bu/modelcar-catalog:qwen3-0.6b
+              EOF
+              echo "ConfigMap applied successfully"

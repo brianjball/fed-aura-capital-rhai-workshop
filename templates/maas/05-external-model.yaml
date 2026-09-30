@@ -1,0 +1,14 @@
+---
+apiVersion: inference.opendatahub.io/v1alpha1
+kind: ExternalModel
+metadata:
+  name: gpt-oss-120b
+  namespace: external-models
+spec:
+  targetModel: gpt-oss-120b
+  externalProviderRefs:
+    - ref:
+        name: gpt-oss-120b
+      apiFormat: openai-chat
+      path: /v1/chat/completions
+      targetModel: gpt-oss-120b

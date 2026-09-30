@@ -1,0 +1,14 @@
+# GenAI Stack Connection Secret
+# This secret is used by AutoRAG and other consumers to connect to the OGX server.
+# Create it in the same namespace as the OGXServer.
+# The display-name annotation controls how it appears in the RHOAI dashboard.
+apiVersion: v1
+kind: Secret
+metadata:
+  annotations:
+    openshift.io/display-name: my-ogx
+  name: my-ogx
+type: Opaque
+stringData:
+  OGX_CLIENT_API_KEY: REPLACE_ME
+  OGX_CLIENT_BASE_URL: http://lsd-genai-playground-service.<NAMESPACE>.svc.cluster.local:8321

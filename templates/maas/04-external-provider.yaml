@@ -1,0 +1,13 @@
+---
+apiVersion: inference.opendatahub.io/v1alpha1
+kind: ExternalProvider
+metadata:
+  name: gpt-oss-120b
+  namespace: external-models
+spec:
+  provider: openai
+  endpoint: maas-rhdp.apps.maas.redhatworkshops.io
+  auth:
+    type: apikey
+    secretRef:
+      name: gpt-oss-120b-api-key

@@ -1,0 +1,64 @@
+# FedAura Capital mortgage-ai deployment values
+#
+# Deploy with:
+#   helm upgrade --install mortgage-ai deployments/mortgage-ai/ \
+#     -n wksp-user1 --create-namespace \
+#     -f templates/mortgage-ai/values-fedaura.yaml
+#
+# Prerequisites:
+#   - templates/minio deployed (shared S3 in wksp-user1)
+#   - MaaS LLM endpoint available (replace REPLACE_ME values below)
+#   - MLflow operator running in redhat-ods-applications
+#
+# Image tags use chart defaults (latest available):
+#   api: quay.io/rh-ai-quickstart/mortgage-ai-api:1.0.2
+#   ui:  quay.io/rh-ai-quickstart/mortgage-ai-ui:latest
+
+secrets:
+  AUTH_DISABLED: "true"
+  COMPANY_NAME: "Fed Aura Capital"
+
+  # S3 - shared MinIO from templates/minio
+  S3_ENDPOINT: "http://minio-service:9000"
+  S3_ACCESS_KEY: "user1"
+  S3_SECRET_KEY: "thisisthepassword"
+
+  # LLM - replace with your MaaS endpoint
+  LLM_BASE_URL: "REPLACE_ME"
+  LLM_API_KEY: "REPLACE_ME"
+  LLM_MODEL: "REPLACE_ME"
+
+  # MCP risk server - deployed in mcp-servers namespace (templates/mcp)
+  MCP_RISK_SERVER_URL: "http://mcp-risk-server.mcp-servers.svc.cluster.local:8081/mcp"
+
+  # MLflow - RHOAI MLflow in-cluster
+  # Note: MLFLOW_TRACKING_AUTH "kubernetes" requires mlflow-kubernetes-auth pip package.
+  # If not installed in the image, use token auth instead:
+  #   oc create token mortgage-ai-mlflow-client -n wksp-user1 --duration=8760h
+  MLFLOW_TRACKING_URI: "https://mlflow.redhat-ods-applications.svc.cluster.local:8443/mlflow"
+  MLFLOW_TRACKING_AUTH: ""
+  MLFLOW_TRACKING_TOKEN: "REPLACE_ME"
+  MLFLOW_EXPERIMENT_NAME: "mortgage-ai"
+  MLFLOW_WORKSPACE: "wksp-user1"
+  MLFLOW_TRACKING_INSECURE_TLS: "true"
+
+# Disable components handled by other templates
+keycloak:
+  enabled: false
+minio:
+  enabled: false
+mcpRiskServer:
+  enabled: false
+mcpWeatherServer:
+  enabled: false
+
+# Enable demo data
+seed:
+  enabled: true
+
+# MLflow RBAC for RHOAI
+mlflow:
+  rbac:
+    enabled: true
+    pipelineRunner:
+      enabled: true

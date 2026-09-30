@@ -1,0 +1,121 @@
+= Conclusion
+:imagesdir: ../assets/images
+:navtitle: Conclusion
+:toc:
+:toc-placement: preamble
+:icons: font
+
+Congratulations! You have completed the Fed Aura Capital AI Workshop and built a production-ready AI platform on Red Hat OpenShift AI.
+
+== What you accomplished
+
+Throughout this workshop, you progressed through four transformation waves, taking Fed Aura Capital from a prototype chatbot to a production-grade, observable, and secure AI system.
+
+=== Wave 1 - Inference: "From token consumer to token producer"
+
+* Deployed LLMs from the RHOAI Model Catalog on both CPU and GPU
+* Benchmarked quantized vs unquantized models, measuring a 1.69x TTFT speedup
+* Scaled inference with llm-d distributed serving
+* Published models as managed services with subscription tiers and API key governance
+
+=== Wave 2 - Data: "From generic to useful AI"
+
+* Shaped model behavior with domain-specific system prompts in the GenAI Playground
+* Trained a predictive underwriting model with AutoML achieving 91.7% accuracy
+* Grounded responses in private policy documents with RAG
+* Explored OGX capabilities for advanced data workflows
+
+=== Wave 3 - Agentic: "From useful to productive AI"
+
+* Connected agents to real tools via MCP servers registered as Kubernetes resources
+* Traced every agent decision end-to-end with MLflow, from input shield through tool calls to output shield
+* Ran automated evaluation pipelines to catch regressions before production
+
+=== Wave 4 - Safety: "From prototype to production-grade"
+
+* Deployed NemoGuardrails for runtime input/output protection
+* Reviewed Garak adversarial test results validating model robustness
+* Explored OpenShell for secure agent onboarding with deny-by-default sandboxing, SPIFFE/SPIRE identity, and OCSF audit
+
+== Fed Aura Capital: before and after
+
+[cols="1,1,1",options="header"]
+|===
+| Dimension | Before | After
+
+| Model hosting
+| External vendor, per-token billing
+| Self-hosted on RHOAI, fixed cost, 35.6ms TTFT
+
+| Model access
+| Each team deploys its own copy
+| Single deployment shared via MaaS gateway with subscription tiers
+
+| AI assistant behavior
+| Generic: "verify with a mortgage professional"
+| Domain expert: "I'll use our pricing engine to quote your rate"
+
+| Underwriting speed
+| 5+ days manual review per application
+| Sub-second prediction, 91.7% accuracy, transparent feature importance
+
+| Knowledge currency
+| Stale training data, hallucinated policy answers
+| RAG-grounded in current internal documents, updated in minutes
+
+| Agent capabilities
+| Estimates with assumptions ($390K-$410K)
+| Precise calculations from real tools ($488,000 with DTI breakdown)
+
+| Decision visibility
+| Black box - no trace of what the agent did
+| Full MLflow traces: every tool call, LLM invocation, and decision path
+
+| Quality assurance
+| Manual spot-checking
+| Automated evaluation pipelines catching regressions before deployment
+
+| Security posture
+| Standard containers, no sandboxing, CISO blocks deployment
+| Defense-in-depth: guardrails, adversarial testing, OpenShell sandboxing, SPIFFE identity, OCSF audit
+
+| Regulatory compliance
+| "We'll get back to you"
+| Structured, timestamped, reproducible traces with full audit trail
+|===
+
+== Key takeaways
+
+1. *The platform is the product.* Individual AI capabilities (inference, RAG, agents) are powerful alone, but their value multiplies when integrated on a single platform with shared observability and governance.
+
+2. *Zero to Hero is achievable.* Every module started from nothing and built a real capability. AutoML trains models without ML engineering. MaaS publishes models without custom infrastructure.
+
+3. *Contrast drives understanding.* By showing what life looks like without each capability, you can articulate the business value of every investment in the AI platform.
+
+4. *Safety is not optional for production.* Defense-in-depth (NemoGuardrails + Garak + OpenShell) provides the security posture needed to move from "prototype approved" to "production deployed."
+
+5. *Observability enables trust.* When regulators ask "why did the AI recommend this?", MLflow traces provide a complete, reproducible answer.
+
+== Next steps
+
+* *Start with inference*: Deploy a model from the catalog and publish it as MaaS for your team
+* *Ground in your data*: Upload your organization's policy documents via the Knowledge tab
+* *Trace everything*: Enable MLflow autolog and start building your trace corpus
+* *Evaluate before shipping*: Build an evaluation pipeline and run it before every prompt change
+* *Secure your agents*: Define OpenShell policies for your agent deployments
+
+== Resources
+
+* https://docs.redhat.com/en/documentation/red_hat_openshift_ai/[Red Hat OpenShift AI Documentation]
+* https://mlflow.org/docs/latest/[MLflow Documentation]
+* https://langchain-ai.github.io/langgraph/[LangGraph Documentation]
+* https://modelcontextprotocol.io/[Model Context Protocol Specification]
+* https://docs.nvidia.com/nemo/guardrails/[NeMo Guardrails Documentation]
+* https://docs.garak.ai/[Garak Documentation]
+* https://github.com/NVIDIA/OpenShell[OpenShell on GitHub]
+
+== Feedback
+
+We value your feedback! Please share your experience with this workshop to help us improve future iterations.
+
+Thank you for participating in the Fed Aura Capital AI Workshop.

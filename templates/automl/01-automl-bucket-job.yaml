@@ -1,0 +1,40 @@
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: automl-bucket-setup
+  namespace: wksp-user1
+spec:
+  ttlSecondsAfterFinished: 300
+  backoffLimit: 4
+  template:
+    spec:
+      restartPolicy: Never
+      volumes:
+        - name: training-data
+          configMap:
+            name: automl-training-data
+      containers:
+        - name: setup
+          image: amazon/aws-cli
+          envFrom:
+            - secretRef:
+                name: automl
+          volumeMounts:
+            - name: training-data
+              mountPath: /data
+              readOnly: true
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Waiting for MinIO..."
+              until aws s3 ls --endpoint-url $AWS_S3_ENDPOINT > /dev/null 2>&1; do
+                sleep 3
+              done
+
+              aws s3 mb s3://automl --endpoint-url $AWS_S3_ENDPOINT || true
+              echo "Bucket 'automl' ready."
+
+              aws s3 cp /data/cleaned_loan_data.csv s3://automl/cleaned_loan_data.csv \
+                --endpoint-url $AWS_S3_ENDPOINT
+              echo "Uploaded cleaned_loan_data.csv to automl bucket."

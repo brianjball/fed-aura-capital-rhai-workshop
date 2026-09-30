@@ -1,0 +1,67 @@
+# OGXServer CR for external LiteLLM MaaS provider
+# Prerequisites:
+#   1. ConfigMap 'llama-stack-config' with OGX labels (see 01-llama-stack-config.yaml)
+#   2. PGVector deployed (see 00-pgvector.yaml)
+#   3. Secret 'genai-pgvector-credentials' with 'password' key
+#   4. Replace <NAMESPACE> with target namespace
+#   5. Set LITEMAAS_API_TOKEN to the real API key
+apiVersion: ogx.io/v1beta1
+kind: OGXServer
+metadata:
+  annotations:
+    openshift.io/display-name: lsd-genai-playground
+  labels:
+    opendatahub.io/dashboard: "true"
+  name: lsd-genai-playground
+spec:
+  distribution:
+    name: rh
+  network:
+    port: 8321
+  overrideConfig:
+    key: config.yaml
+    name: llama-stack-config
+  workload:
+    overrides:
+      command:
+      - /bin/sh
+      - -c
+      - ogx run /etc/ogx/config.yaml --insecure
+      env:
+      - name: VLLM_TLS_VERIFY
+        value: "false"
+      - name: FAISS_STORE_DIR
+        value: ~/.llama/faiss
+      - name: SENTENCE_TRANSFORMERS_HOME
+        value: /opt/app-root/.cache/huggingface/hub
+      - name: HF_HUB_OFFLINE
+        value: "1"
+      - name: TRANSFORMERS_OFFLINE
+        value: "1"
+      - name: HF_DATASETS_OFFLINE
+        value: "1"
+      - name: PGVECTOR_HOST
+        value: genai-pgvector.<NAMESPACE>.svc.cluster.local
+      - name: PGVECTOR_PORT
+        value: "5432"
+      - name: PGVECTOR_DB
+        value: vectordb
+      - name: PGVECTOR_USER
+        value: vectoruser
+      - name: PGVECTOR_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            key: password
+            name: genai-pgvector-credentials
+      - name: OGX_CONFIG_DIR
+        value: /opt/app-root/src/.ogx/distributions/rh/
+      - name: LITEMAAS_API_TOKEN
+        value: REPLACE_ME
+    replicas: 1
+    resources:
+      limits:
+        cpu: "2"
+        memory: 12Gi
+      requests:
+        cpu: 250m
+        memory: 500Mi

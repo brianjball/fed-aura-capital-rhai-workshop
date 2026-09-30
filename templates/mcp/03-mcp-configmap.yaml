@@ -1,0 +1,19 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: gen-ai-aa-mcp-servers
+  namespace: redhat-ods-applications
+data:
+  Risk-MCP-Server: |
+    {
+      "url": "http://mcp-risk-server.mcp-servers.svc.cluster.local:8081/mcp",
+      "transport": "streamable-http",
+      "description": "An MCP server for mortgage risk assessment and analysis."
+    }
+  Weather-MCP-Server: |
+    {
+      "url": "http://mcp-weather.mcp-servers.svc.cluster.local/sse",
+      "transport": "sse",
+      "description": "An MCP server for getting real-time weather data."
+    }

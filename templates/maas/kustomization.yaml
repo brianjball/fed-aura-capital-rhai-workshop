@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-namespaces.yaml
+  - 01-maas-config.yaml
+  - 02-aitenant.yaml
+  - 03-api-key-secret.yaml
+  - 04-external-provider.yaml
+  - 05-external-model.yaml
+  - 06-maas-model-refs.yaml
+  - 07-maas-auth-policies.yaml
+  - 08-maas-subscriptions.yaml
+  - 09-maas-tenant-config.yaml

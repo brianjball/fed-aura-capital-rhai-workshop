@@ -1,0 +1,35 @@
+---
+apiVersion: serving.kserve.io/v1beta1
+kind: InferenceService
+metadata:
+  name: tinyllama
+  namespace: wksp-user1
+  annotations:
+    openshift.io/display-name: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+    opendatahub.io/model-type: generative
+    security.opendatahub.io/enable-auth: "false"
+    serving.kserve.io/deploymentMode: Standard
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/genai-asset: "true"
+    networking.kserve.io/visibility: exposed
+spec:
+  predictor:
+    automountServiceAccountToken: false
+    deploymentStrategy:
+      type: Recreate
+    maxReplicas: 1
+    minReplicas: 1
+    model:
+      modelFormat:
+        name: vLLM
+      name: ""
+      resources:
+        limits:
+          cpu: "8"
+          memory: 8Gi
+        requests:
+          cpu: "4"
+          memory: 8Gi
+      runtime: tinyllama
+      storageUri: oci://quay.io/rh-aiservices-bu/tinyllama:1.0

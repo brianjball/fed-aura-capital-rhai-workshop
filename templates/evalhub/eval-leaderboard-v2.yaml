@@ -1,0 +1,31 @@
+name: "openllm-leaderboard-v2"
+model:
+  url: "${MODEL_URL}"
+  name: "${MODEL_NAME}"
+  auth:
+    secret_ref: "${MODEL_AUTH_SECRET}"
+benchmarks:
+  - id: leaderboard_ifeval
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"
+  - id: leaderboard_bbh
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"
+  - id: leaderboard_gpqa
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"
+  - id: leaderboard_mmlu_pro
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"
+  - id: leaderboard_musr
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"
+  - id: leaderboard_math_hard
+    provider_id: lm_evaluation_harness
+    parameters:
+      tokenizer: "${MODEL_TOKENIZER}"

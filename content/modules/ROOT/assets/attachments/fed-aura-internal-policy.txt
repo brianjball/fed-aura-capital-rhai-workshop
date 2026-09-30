@@ -1,0 +1,34 @@
+Fed Aura Capital
+Company Underwriting Manual, Rev. 2024-Q4
+
+DEBT-TO-INCOME OVERLAYS
+
+Fed Aura Capital sets a maximum back-end debt-to-income (DTI) ratio of 40%
+for conventional loans. This company overlay is more conservative than the
+federal qualified-mortgage safe-harbor threshold of 43%.
+
+Exceptions may be granted by the Chief Credit Officer for borrowers with a
+credit score above 760 and verified liquid reserves exceeding 12 months of
+housing payments.
+
+UNDERWRITING EXCEPTIONS
+
+Every exception must be documented on the Exception Request Form. A Senior
+Underwriter may approve a minor, single-factor exception with low risk. The
+Underwriting Manager may approve moderate exceptions, including a DTI override
+up to 45% or an LTV override up to two percentage points. The Chief Credit
+Officer must approve major exceptions involving multiple factors or a
+significant deviation from policy.
+
+Every exception must include a written justification describing the
+compensating factors that mitigate the additional risk. Exception approvals
+are audited quarterly and reported to the Risk Committee.
+
+RECORD RETENTION
+
+Loan files must be retained for at least seven years from final disposition.
+HMDA-related data must be retained for three years after the March 1 submission
+deadline. Audit trail records must be retained for ten years.
+
+Electronic document storage must comply with the E-SIGN Act and preserve
+document integrity through checksums or digital signatures.

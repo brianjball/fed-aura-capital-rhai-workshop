@@ -1,0 +1,162 @@
+[
+  {
+    "question": "What are the FHA DTI ratio limits?",
+    "correct_answers": [
+      "The front-end ratio must not exceed 31% and the back-end ratio must not exceed 43%",
+      "FHA loans have a two-tier DTI analysis: 31% front-end and 43% back-end"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "Under what conditions can an FHA borrower have a back-end DTI ratio above 43%?",
+    "correct_answers": [
+      "A back-end ratio up to 50% may be acceptable when documented with significant compensating factors such as verified reserves, minimal payment shock, or significant residual income",
+      "Borrowers with compensating factors may qualify with a back-end ratio up to 50%"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What is the FHA upfront mortgage insurance premium rate?",
+    "correct_answers": [
+      "The UFMIP is currently 1.75% of the base loan amount and may be financed into the loan",
+      "1.75% of the base loan amount"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "When can MIP be cancelled on an FHA loan?",
+    "correct_answers": [
+      "MIP may be cancelled after 11 years when the LTV is 90% or below at origination",
+      "For LTV of 90% or below, MIP may be cancelled after 11 years. MIP is required for the life of the loan when the LTV exceeds 90% at origination"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What is the minimum credit score for an FHA loan?",
+    "correct_answers": [
+      "FHA requires a minimum credit score of 500",
+      "500, but borrowers with scores between 500 and 579 are limited to 90% LTV"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What down payment is required for an FHA borrower with a credit score of 570?",
+    "correct_answers": [
+      "10% minimum down payment, since borrowers with credit scores between 500 and 579 are limited to a maximum LTV of 90%",
+      "A minimum 10% down payment is required for scores between 500 and 579"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What property issues must be repaired before closing an FHA loan?",
+    "correct_answers": [
+      "Peeling paint for pre-1978 properties, missing handrails, broken windows, exposed wiring, and roof defects with remaining life under 2 years",
+      "Common issues include peeling paint, missing handrails, broken windows, exposed wiring, and roof defects"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What is the Company's maximum DTI ratio for conventional loans?",
+    "correct_answers": [
+      "The Company sets a maximum back-end DTI ratio of 40% for conventional loans",
+      "40%, which is more conservative than the federal QM safe harbor of 43%"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "Who can grant a DTI exception for conventional loans?",
+    "correct_answers": [
+      "The Chief Credit Officer may grant exceptions for borrowers with a credit score above 760 and verified liquid reserves exceeding 12 months of housing payments",
+      "Exceptions may be granted by the Chief Credit Officer"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "What is the conforming loan limit for 2024?",
+    "correct_answers": [
+      "$766,550 in most areas, higher in designated high-cost areas",
+      "$766,550 for 2024 in most areas"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "What are the underwriting requirements for jumbo loans?",
+    "correct_answers": [
+      "Minimum credit score of 700, maximum DTI of 38%, minimum 20% down payment, and at least 12 months of reserves",
+      "Jumbo loans require a minimum credit score of 700, max DTI of 38%, 20% down payment, and 12 months reserves, and must be underwritten by a senior underwriter with a second review"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "What rate lock periods are available?",
+    "correct_answers": [
+      "30, 45, or 60 day periods. Extended locks of 90 days require manager approval",
+      "Rate locks are available for 30, 45, or 60 days"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "What is the fee for a rate lock extension?",
+    "correct_answers": [
+      "0.125% per 15-day extension",
+      "Lock extensions beyond the original period incur a fee of 0.125% per 15-day extension"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "Who approves major underwriting exceptions?",
+    "correct_answers": [
+      "The Chief Credit Officer approves major exceptions involving multiple factors or significant deviation from policy",
+      "Chief Credit Officer for major exceptions"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "How long must loan files be retained?",
+    "correct_answers": [
+      "Loan files must be retained for a minimum of 7 years from the date of final disposition",
+      "7 years from the date of closing, denial, or withdrawal"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "How do the Company's DTI limits for FHA loans compare to conventional loans?",
+    "correct_answers": [
+      "For FHA loans the Company follows FHA guidelines of 31/43 without additional overlays, while conventional loans have a stricter 40% back-end DTI limit",
+      "FHA loans follow the standard 31/43 limits, but conventional loans are capped at 40% back-end DTI"
+    ],
+    "correct_answer_document_ids": ["fha.pdf", "internal-policies.pdf"]
+  },
+  {
+    "question": "What is the annual MIP rate for a 30-year FHA loan with LTV greater than 95%?",
+    "correct_answers": [
+      "0.55% of the average outstanding balance",
+      "The annual MIP is 0.55%"
+    ],
+    "correct_answer_document_ids": ["fha.pdf"]
+  },
+  {
+    "question": "What additional appraisal requirement applies to jumbo loans over $1.5 million?",
+    "correct_answers": [
+      "The property appraisal must include a second comparable analysis for jumbo amounts exceeding $1.5 million",
+      "A second comparable analysis is required"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "How long must HMDA-related data be retained?",
+    "correct_answers": [
+      "HMDA-related data must be retained for 3 years following the March 1 submission deadline",
+      "3 years following the March 1 submission deadline"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  },
+  {
+    "question": "What are the three levels of exception approval authority?",
+    "correct_answers": [
+      "Senior Underwriter for minor exceptions, Underwriting Manager for moderate exceptions, and Chief Credit Officer for major exceptions",
+      "Minor exceptions require Senior Underwriter approval, moderate exceptions require Underwriting Manager approval, and major exceptions require Chief Credit Officer approval"
+    ],
+    "correct_answer_document_ids": ["internal-policies.pdf"]
+  }
+]

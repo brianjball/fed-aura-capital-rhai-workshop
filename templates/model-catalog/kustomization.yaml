@@ -1,0 +1,17 @@
+---
+# catalog-source RBAC + Job deploy to rhoai-model-registries (hardcoded in their manifests)
+# ServingRuntimes + InferenceServices deploy to wksp-user1
+# The vllm-cpu-serving-runtime Template goes to redhat-ods-applications (hardcoded)
+#
+# For a clean kustomize apply, use: oc apply -k templates/model-catalog/
+# Resources with hardcoded namespaces will use those; the rest get wksp-user1
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - catalog-source-cleanup-rbac.yaml
+  - catalog-source-update-job.yaml
+  - vllm-cpu-serving-runtime.yaml
+  - qwen3-06b-servingruntime.yaml
+  - qwen3-06b-inferenceservice.yaml
+  - tinyllama-servingruntime.yaml
+  - tinyllama-inferenceservice.yaml

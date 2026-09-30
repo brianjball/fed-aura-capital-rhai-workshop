@@ -1,0 +1,56 @@
+= Fed Aura Capital AI Workshop with Red Hat AI
+
+Welcome to the Fed Aura Capital AI Workshop, Grand Rapids!
+
+== What you'll learn
+
+In this workshop, you will build an end-to-end AI platform for mortgage lending using Red Hat OpenShift AI. Through the lens of Fed Aura Capital, a fictitious mortgage lending company, you will:
+
+=== icon:server[] Fast, Flexible, and Efficient Inferencing
+
+* *Deploy and benchmark AI models* - Deploy LLMs on CPU and GPU, compare quantized vs unquantized performance, and scale inference with llm-d distributed serving
+* *Serve models as a managed service* - Publish models via MaaS with subscription tiers, API key management, and governed access for multiple teams
+
+=== icon:database[] Connecting Data to Models and Agents
+
+* *Shape model behavior with prompts* - Use the GenAI Playground to engineer domain-specific personas and tune model responses for mortgage lending
+* *Build predictive models with AutoML* - Train binary classification models for loan underwriting decisions without writing ML code
+* *Ground responses in private data with RAG* - Connect your models to internal policy documents so answers reflect your organization's rules, not generic knowledge
+
+=== icon:cogs[] Accelerate Agentic AI Innovation
+
+* *Connect agents to tools via MCP* - Register MCP servers so AI agents can call real tools: affordability calculators, risk assessments, compliance checks
+* *Trace and evaluate agent decisions* - Use MLflow tracing to follow every tool call and LLM invocation, and run evaluation pipelines to measure quality
+
+=== icon:shield[] Securing AI from Sandbox to Production
+
+* *Deploy guardrails at the inference boundary* - Configure NeMo Guardrails to filter harmful inputs and outputs before they reach the model or the user
+* *Run adversarial testing with Garak* - Probe your models for prompt injection, jailbreak, and data leakage vulnerabilities before production deployment
+* *Sandbox agents with OpenShell* - Securely onboard AI agents with deny-by-default policies, network isolation, and full OCSF audit logging
+
+== Who this is for
+
+This workshop is designed for:
+
+* *Platform Engineers / MLOps* - who deploy and operate AI infrastructure
+* *Data Scientists / AI Engineers* - who build and evaluate AI models and agents
+* *Application Developers* - who integrate AI capabilities into business applications
+* *Solution Architects* - who design end-to-end AI platforms for the enterprise
+
+== Prerequisites
+
+This workshop assumes basic familiarity with Kubernetes concepts and a general understanding of AI/ML terminology. No prior experience with Red Hat AI is required.
+
+== Workshop environment
+
+You will work with Fed Aura Capital's AI-powered mortgage lending platform, built with LangGraph multi-agent orchestration, Model Context Protocol (MCP) tools, and served on Red Hat OpenShift AI.
+
+== Estimated time
+
+This workshop will take approximately *2 to 3 hours* to complete.
+
+You can work at your own pace. Each module is self-contained with its own learning objectives and verification steps.
+
+== Let's get started!
+
+Click on *Workshop Overview* in the navigation to begin your learning journey.

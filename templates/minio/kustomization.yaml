@@ -1,0 +1,11 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  - 00-namespace.yaml
+  - 00-minio-secret.yaml
+  - 01-minio-pvc.yaml
+  - 02-minio-deployment.yaml
+  - 03-minio-service.yaml
+  - 04-minio-routes.yaml
+  - 05-minio-connection.yaml

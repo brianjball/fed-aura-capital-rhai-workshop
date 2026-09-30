@@ -1,0 +1,42 @@
+# TinyLlama LLMInferenceService via inference gateway
+# Do NOT override command/args - the preset template handles TLS and served-model-name
+---
+apiVersion: serving.kserve.io/v1alpha1
+kind: LLMInferenceService
+metadata:
+  name: tinyllama
+  namespace: llm
+  annotations:
+    opendatahub.io/model-type: generative
+    openshift.io/display-name: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+    security.opendatahub.io/enable-auth: "true"
+  labels:
+    opendatahub.io/dashboard: "true"
+    opendatahub.io/genai-asset: "true"
+spec:
+  model:
+    name: tinyllama
+    uri: oci://quay.io/rh-aiservices-bu/tinyllama:1.0
+  replicas: 1
+  router:
+    gateway:
+      refs:
+        - name: maas-default-gateway
+          namespace: openshift-ingress
+    route: {}
+  template:
+    containers:
+      - name: main
+        image: registry.redhat.io/rhaiis/vllm-cpu-rhel9@sha256:f05e773647dddd37ec6c2215cb14bec87e4ab5a7d37f2e110d16cd92355427d3
+        env:
+          - name: HF_HOME
+            value: /tmp/hf_home
+          - name: VLLM_CPU_KVCACHE_SPACE
+            value: "4"
+        resources:
+          requests:
+            cpu: "4"
+            memory: 8Gi
+          limits:
+            cpu: "8"
+            memory: 8Gi
